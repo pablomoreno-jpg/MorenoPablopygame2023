@@ -20,7 +20,7 @@ class Jugador(pygame.sprite.Sprite):
         self.direccion = DIRECCION_R
         self.animacion = self.quieto_r
         self.imagen = self.animacion[self.frame]
-        self.mask = pygame.mask.from_surface(self.imagen)
+        self.mask = self.mask = pygame.mask.from_surface(self.imagen)
         self.rect = self.imagen.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -30,6 +30,7 @@ class Jugador(pygame.sprite.Sprite):
         self.frame_rate_animacion = framerate_animacion
         self.frame_rate_movimiento = framerate_moviemiento
         self.disparando = False
+        self.salto = False
         self.disparo = pygame.sprite.Group()
 
     def obtener_sprits(self,accion):
@@ -46,10 +47,10 @@ class Jugador(pygame.sprite.Sprite):
             case "saltar":
                 if self.direccion == DIRECCION_R:
                     sprits = Auxliar.load_sprisheet(
-                        r"\characters\doom marine\jump.png", 3, 1, direcciones=True)
+                        r"\characters\doom marine\jump.png", 4, 1, direcciones=True)
                 else:
                     sprits = Auxliar.load_sprisheet(
-                        r"\characters\doom marine\jump.png", 3, 1)
+                        r"\characters\doom marine\jump.png", 4, 1)
 
             case "disparar":
                 if self.direccion == DIRECCION_R:
@@ -72,7 +73,7 @@ class Jugador(pygame.sprite.Sprite):
                     self.mover_x = self.speed
 
                     self.animacion = self.obtener_sprits("caminar")
-
+                    
             else:
 
                     self.mover_x = -self.speed
@@ -84,13 +85,21 @@ class Jugador(pygame.sprite.Sprite):
                 self.frame = 0
 
     def saltar(self):
-
-        self.mover_y = -GRAVEDAD * 8
+        self.salto = True
+        self.mover_y = -GRAVEDAD * 10
         self.frame = 0
         self.contador_salto += 1
         if self.contador_salto == 1:
             self.contador_caida = 0
+
+        if self.contador_salto == 2:
+
+            self.mover_y -=  4
+
         self.animacion = self.obtener_sprits("saltar")
+
+
+        print(self.mover_y)
 
     def disparar(self):
                 
@@ -124,7 +133,7 @@ class Jugador(pygame.sprite.Sprite):
     def hit_head(self):
 
         self.mover_y *= -1
-    
+
     def colicion_horizontal(self,objetos:list[Objeto],desplazamineto_y):
 
         coleccion_objetos = []
@@ -132,20 +141,37 @@ class Jugador(pygame.sprite.Sprite):
         for obj in objetos:
 
             if pygame.sprite.collide_mask(self,obj):
+                
+                if not self.salto:
+                    if desplazamineto_y > 0:
 
-                if desplazamineto_y > 0:
-                    
-                    self.rect.bottom = obj.rect.top 
-                    self.landed()
+                        self.rect.bottom = obj.rect.top 
+                        self.landed()
 
-                elif desplazamineto_y < 0:
+                    elif desplazamineto_y < 0 :
 
-                    self.rect.top = obj.rect.bottom
-                    self.hit_head()
+                        self.rect.top = obj.rect.bottom
+                        self.hit_head()
+
+
 
                 coleccion_objetos.append(obj)
             
         return coleccion_objetos
+
+    def collide(self,objetos,dezplazamiento_x):
+        
+
+        collide_obj = None
+        for obj in objetos:
+
+            if pygame.sprite.collide_mask(self,obj):
+                
+                collide_obj = obj
+                break
+
+
+        pass
 
     def control_horizontal(self,objeto):
 
@@ -182,13 +208,14 @@ class Jugador(pygame.sprite.Sprite):
             if evento.key == pygame.K_l:
                 self.disparando = True
                 self.disparar()
-                
 
         if evento.type == pygame.KEYUP:
 
             if evento.key == pygame.K_l:
 
                 self.disparando = False
+
+       
 
     def balas(self,screen):
 
@@ -220,6 +247,10 @@ class Jugador(pygame.sprite.Sprite):
                     
                     self.cooldown_dispario = 20
 
+            if self.mover_y > 1:
+
+                self.salto = False
+
 
             self.tiempo_trasncurrio_moviento = 0
 
@@ -233,6 +264,9 @@ class Jugador(pygame.sprite.Sprite):
 
 
     def do_animacion(self,delta_ms):
+
+
+      
 
         self.tiempo_trasncurrio_animacion += delta_ms
 
@@ -261,6 +295,7 @@ class Jugador(pygame.sprite.Sprite):
 
         self.do_moviento(delta_ms)
         self.do_animacion(delta_ms)
+        self.mask = pygame.mask.from_surface(self.imagen)
 
     def draw(self,screen):
 

@@ -34,8 +34,6 @@ while True:
         if evento.type == pygame.QUIT:
             pygame.quit()
             sys.exit()    
-
-        
             
         player.control_vertical(piso,evento)
 
