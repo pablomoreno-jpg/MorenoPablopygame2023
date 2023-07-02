@@ -148,18 +148,23 @@ class Jugador(pygame.sprite.Sprite):
                         self.rect.bottom = obj.rect.top 
                         self.landed()
 
-                    elif desplazamineto_y < 0 :
+                    # elif desplazamineto_y < 0 :
+
+                    #     self.rect.top = obj.rect.bottom
+                    #     self.hit_head()
+                else:
+
+                    if self.rect.top == obj.rect.bottom :
 
                         self.rect.top = obj.rect.bottom
                         self.hit_head()
-
 
 
                 coleccion_objetos.append(obj)
             
         return coleccion_objetos
 
-    def collide(self,objetos,dezplazamiento_x):
+    def collide(self,objetos,desplazamiento_x):
         
 
         collide_obj = None
@@ -169,21 +174,26 @@ class Jugador(pygame.sprite.Sprite):
                 
                 collide_obj = obj
                 break
+            
 
+        
 
-        pass
+        return collide_obj
 
     def control_horizontal(self,objeto):
 
         keys = pygame.key.get_pressed()
         
-        if not keys[pygame.K_SPACE] and not keys[pygame.K_l]:
+        colicion_izquierda = self.collide(objeto,-self.speed*2)
+        colicion_derecha = self.collide(objeto,self.speed*2)
 
-            if keys[pygame.K_d] and not keys[pygame.K_a]:
+        if not keys[pygame.K_SPACE] and not keys[pygame.K_l] :
+
+            if (keys[pygame.K_d] and not keys[pygame.K_a]) :
 
                 self.caminar(DIRECCION_R)
 
-            if keys[pygame.K_a] and not keys[pygame.K_d]:
+            if (keys[pygame.K_a] and not keys[pygame.K_d]) :
 
                 self.caminar(DIRECCION_L)
 
@@ -238,11 +248,11 @@ class Jugador(pygame.sprite.Sprite):
 
                     if self.direccion == DIRECCION_R:
 
-                        self.disparo.add(Bala(self.rect.centerx + self.rect.size[0],self.rect.centery,self.direccion,"",8))
+                        self.disparo.add(Bala(self.rect.centerx + self.rect.size[0],self.rect.centery,self.direccion,"escopeta"))
                     
                     else:
                         
-                        self.disparo.add(Bala(self.rect.centerx - self.rect.size[0],self.rect.centery,self.direccion,"",8))
+                        self.disparo.add(Bala(self.rect.centerx - self.rect.size[0],self.rect.centery,self.direccion,"escopeta"))
 
                     
                     self.cooldown_dispario = 20
@@ -264,9 +274,6 @@ class Jugador(pygame.sprite.Sprite):
 
 
     def do_animacion(self,delta_ms):
-
-
-      
 
         self.tiempo_trasncurrio_animacion += delta_ms
 
@@ -295,6 +302,7 @@ class Jugador(pygame.sprite.Sprite):
 
         self.do_moviento(delta_ms)
         self.do_animacion(delta_ms)
+        self.rect = self.imagen.get_rect(topleft = (self.rect.x,self.rect.y))
         self.mask = pygame.mask.from_surface(self.imagen)
 
     def draw(self,screen):
