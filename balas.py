@@ -15,8 +15,6 @@ class Bala(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (x,y)
 
-
-
     def obtener_bala(self):
 
         match self.tipo:
@@ -27,7 +25,7 @@ class Bala(pygame.sprite.Sprite):
 
                 self.speed = 8
 
-            case "pistola":
+            case "default":
 
                 self.speed = 12
 
@@ -35,14 +33,6 @@ class Bala(pygame.sprite.Sprite):
 
                 self.speed = 17
 
-            case "metralleta":
-
-                self.speed = 16
-
-            case "bfg":
-
-                self.speed = 1
-        
 
         return imagen
 
@@ -56,7 +46,7 @@ class Bala(pygame.sprite.Sprite):
 
         return imagen
     
-    def update(self):
+    def update(self,player,enemigo=None):
         
         if self.direccion == DIRECCION_R:
 
@@ -68,5 +58,15 @@ class Bala(pygame.sprite.Sprite):
 
         if self.rect.right < 0 or self.rect.left > ANCHO_VENTANA:
             self.kill()
+
+
+        if pygame.sprite.spritecollide(player, player.grupo_balas,False):
+           
+            if player.salud_maxima > 0:
+
+                player.salud_maxima -= 5 
+
+                self.kill()
+
 
         

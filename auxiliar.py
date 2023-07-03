@@ -9,7 +9,7 @@ class Auxliar:
 
         lista = []
 
-        imagen_superficie = pygame.image.load(r"{0}{1}".format(PHAT_RECURSOS,directorio)).convert_alpha()
+        imagen_superficie = pygame.image.load(r"{0}{1}".format(PHAT_RECURSOS,directorio))
         
         fotograma_ancho = int(imagen_superficie.get_width() / columnas)
         fotograma_alto = int(imagen_superficie.get_height() / filas)

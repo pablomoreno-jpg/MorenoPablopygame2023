@@ -2,7 +2,7 @@ ANCHO_VENTANA = 1050
 ALTO_VENTANA= 700
 FPS = 60
 
-DEBUG = False   
+DEBUG = True
 
 PHAT_RECURSOS =  r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\mis imagenes"
 
@@ -11,6 +11,7 @@ PAHT_BLOQUES_AMARILLO = r"\locations\bloques\azul.png"
 
 
 PAHT_PROYECTILES= r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\mis imagenes\proyectiles"
+PAHT_ITEMS = r"\items"
 
 
 DIRECCION_R = 0

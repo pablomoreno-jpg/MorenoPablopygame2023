@@ -4,12 +4,36 @@ from auxiliar import*
 from plataforma import*
 from balas import*
 
+SPRITS_JUGADOR_L = {"default":{"idel":Auxliar.load_sprisheet(r"\characters\doom marine\default\idel.png",2,1),
+                              "shoot": Auxliar.load_sprisheet(r"\characters\doom marine\default\shoot.png",3,1),
+                              "walk":Auxliar.load_sprisheet(r"\characters\doom marine\default\walk.png",4,1)},
+                "escopeta":{"idel":Auxliar.load_sprisheet(r"\characters\doom marine\escopeta\idel.png",8,1),
+                              "shoot": Auxliar.load_sprisheet(r"\characters\doom marine\escopeta\shoot.png",5,1),
+                              "walk":Auxliar.load_sprisheet(r"\characters\doom marine\escopeta\walk.png",3,1)},
+                "salto":Auxliar.load_sprisheet(r"\characters\doom marine\jump.png",4,1)}
+
+SPRITS_JUGADOR_R = {"default":{"idel":Auxliar.load_sprisheet(r"\characters\doom marine\default\idel.png",2,1,direcciones=True),
+                              "shoot": Auxliar.load_sprisheet(r"\characters\doom marine\default\shoot.png",3,1,direcciones=True),
+                              "walk":Auxliar.load_sprisheet(r"\characters\doom marine\default\walk.png",4,1,direcciones=True)},
+                "escopeta":{"idel":Auxliar.load_sprisheet(r"\characters\doom marine\escopeta\idel.png",8,1,direcciones=True),
+                              "shoot": Auxliar.load_sprisheet(r"\characters\doom marine\escopeta\shoot.png",5,1,direcciones=True),
+                              "walk":Auxliar.load_sprisheet(r"\characters\doom marine\escopeta\walk.png",3,1,direcciones=True)},
+                "salto":Auxliar.load_sprisheet(r"\characters\doom marine\jump.png",4,1,direcciones=True)}
+
 class Jugador(pygame.sprite.Sprite):
 
     def __init__(self,x,y,velocidad,framerate_animacion,framerate_moviemiento) -> None:
         super().__init__()
-        self.quieto_r = Auxliar.load_sprisheet(r"\characters\doom marine\idel.png", 8, 1, direcciones=True)
-        self.quieto_l = Auxliar.load_sprisheet(r"\characters\doom marine\idel.png", 8, 1) 
+        self.direccion = DIRECCION_R
+        self.arma = "default"
+        self.salud = 100
+        self.salud_maxima = self.salud
+        self.escudo_maximo = 50
+        self.escudo = 0
+        self.grandas_maximas = 6
+        self.grandas = 0
+        self.misiles_maximos = 10
+        self.munision_misiles = 0
         self.contador_salto = 0
         self.contador_caida = 0
         self.speed = velocidad
@@ -17,8 +41,8 @@ class Jugador(pygame.sprite.Sprite):
         self.mover_x = 0
         self.mover_y = 0
         self.cooldown_dispario = 0
-        self.direccion = DIRECCION_R
-        self.animacion = self.quieto_r
+        self.cooldown_maximo = 15
+        self.animacion = SPRITS_JUGADOR_R[self.arma]["idel"]
         self.imagen = self.animacion[self.frame]
         self.mask = self.mask = pygame.mask.from_surface(self.imagen)
         self.rect = self.imagen.get_rect()
@@ -31,36 +55,7 @@ class Jugador(pygame.sprite.Sprite):
         self.frame_rate_movimiento = framerate_moviemiento
         self.disparando = False
         self.salto = False
-        self.disparo = pygame.sprite.Group()
-
-    def obtener_sprits(self,accion):
-        
-        match accion:
-            case "caminar":
-                if self.direccion == DIRECCION_R:
-                    sprits = Auxliar.load_sprisheet(
-                        r"\characters\doom marine\walk.png", 3, 1, direcciones=True)
-                else:
-                   sprits = Auxliar.load_sprisheet(
-                       r"\characters\doom marine\walk.png", 3, 1)
-
-            case "saltar":
-                if self.direccion == DIRECCION_R:
-                    sprits = Auxliar.load_sprisheet(
-                        r"\characters\doom marine\jump.png", 4, 1, direcciones=True)
-                else:
-                    sprits = Auxliar.load_sprisheet(
-                        r"\characters\doom marine\jump.png", 4, 1)
-
-            case "disparar":
-                if self.direccion == DIRECCION_R:
-                    sprits = Auxliar.load_sprisheet(
-                        r"\characters\doom marine\shoot.png", 5, 1, direcciones=True)
-                else:
-                    sprits = Auxliar.load_sprisheet(
-                        r"\characters\doom marine\shoot.png", 5, 1)
-
-        return sprits
+        self.grupo_balas = pygame.sprite.Group()
 
     def caminar(self,direccion):
 
@@ -72,19 +67,20 @@ class Jugador(pygame.sprite.Sprite):
 
                     self.mover_x = self.speed
 
-                    self.animacion = self.obtener_sprits("caminar")
+                    self.animacion = SPRITS_JUGADOR_R[self.arma]["walk"]
                     
             else:
 
                     self.mover_x = -self.speed
 
-                    self.animacion = self.obtener_sprits("caminar")
+                    self.animacion = SPRITS_JUGADOR_L[self.arma]["walk"]
             
             if self.frame > len(self.animacion) -1:
 
                 self.frame = 0
 
     def saltar(self):
+
         self.salto = True
         self.mover_y = -GRAVEDAD * 10
         self.frame = 0
@@ -96,29 +92,39 @@ class Jugador(pygame.sprite.Sprite):
 
             self.mover_y -=  4
 
-        self.animacion = self.obtener_sprits("saltar")
+        if self.direccion == DIRECCION_R:
+    
+            self.animacion = SPRITS_JUGADOR_R["salto"]
 
+        else:
 
-        print(self.mover_y)
+            self.animacion = SPRITS_JUGADOR_L["salto"]
 
     def disparar(self):
-                
-        self.animacion = self.obtener_sprits("disparar")            
+
+        if self.direccion == DIRECCION_R:
+
+            self.animacion = SPRITS_JUGADOR_R[self.arma]["shoot"]
+        else:
+
+            self.animacion = SPRITS_JUGADOR_L[self.arma]["shoot"]
+
+
         self.frame = 0
         self.mover_x = 0
         self.mover_y = 0
 
     def quieto(self):
 
-        if self.animacion != self.quieto_r and self.animacion != self.quieto_l:
+        if self.animacion != SPRITS_JUGADOR_R[self.arma]["idel"] and self.animacion != SPRITS_JUGADOR_L[self.arma]["idel"]:
 
             if self.direccion == DIRECCION_R:
 
-                self.animacion = self.quieto_r
+                self.animacion = SPRITS_JUGADOR_R[self.arma]["idel"]
 
             else:
-
-                self.animacion = self.quieto_l
+                
+                self.animacion = SPRITS_JUGADOR_L[self.arma]["idel"]
 
             self.mover_x = 0
             self.mover_y = 0
@@ -164,28 +170,27 @@ class Jugador(pygame.sprite.Sprite):
             
         return coleccion_objetos
 
-    def collide(self,objetos,desplazamiento_x):
+    # def collide(self,objetos,desplazamiento_x):
         
+    #     collide_obj = None
+    #     for obj in objetos:
 
-        collide_obj = None
-        for obj in objetos:
-
-            if pygame.sprite.collide_mask(self,obj):
+    #         if pygame.sprite.collide_mask(self,obj):
                 
-                collide_obj = obj
-                break
+    #             collide_obj = obj
+    #             break
             
 
         
 
-        return collide_obj
+    #     return collide_obj
 
     def control_horizontal(self,objeto):
 
         keys = pygame.key.get_pressed()
         
-        colicion_izquierda = self.collide(objeto,-self.speed*2)
-        colicion_derecha = self.collide(objeto,self.speed*2)
+        # colicion_izquierda = self.collide(objeto,-self.speed*2)
+        # colicion_derecha = self.collide(objeto,self.speed*2)
 
         if not keys[pygame.K_SPACE] and not keys[pygame.K_l] :
 
@@ -225,13 +230,12 @@ class Jugador(pygame.sprite.Sprite):
 
                 self.disparando = False
 
-       
-
+    
     def balas(self,screen):
 
-        self.disparo.draw(screen)
+        self.grupo_balas.draw(screen)
 
-        self.disparo.update()
+        self.grupo_balas.update(self)
 
     def do_moviento(self,delta_ms):
 
@@ -242,20 +246,21 @@ class Jugador(pygame.sprite.Sprite):
 
         if self.tiempo_trasncurrio_moviento >= self.frame_rate_movimiento:
 
-            if self.disparando and self.frame == 0:
+            if self.disparando and self.frame == 0 and self.cooldown_dispario == 0:
                 
-                if self.cooldown_dispario == 0:
+    
 
                     if self.direccion == DIRECCION_R:
+                       
 
-                        self.disparo.add(Bala(self.rect.centerx + self.rect.size[0],self.rect.centery,self.direccion,"escopeta"))
+                        self.grupo_balas.add(Bala(self.rect.centerx + self.rect.size[0],self.rect.centery,self.direccion,"escopeta"))
                     
                     else:
                         
-                        self.disparo.add(Bala(self.rect.centerx - self.rect.size[0],self.rect.centery,self.direccion,"escopeta"))
+                        self.grupo_balas.add(Bala(self.rect.centerx - self.rect.size[0],self.rect.centery,self.direccion,"escopeta"))
 
                     
-                    self.cooldown_dispario = 20
+                    self.cooldown_dispario = self.cooldown_maximo
 
             if self.mover_y > 1:
 
@@ -271,6 +276,9 @@ class Jugador(pygame.sprite.Sprite):
                 self.cooldown_dispario -= 1
 
         self.contador_caida += 1
+
+
+    
 
 
     def do_animacion(self,delta_ms):
@@ -304,6 +312,7 @@ class Jugador(pygame.sprite.Sprite):
         self.do_animacion(delta_ms)
         self.rect = self.imagen.get_rect(topleft = (self.rect.x,self.rect.y))
         self.mask = pygame.mask.from_surface(self.imagen)
+        print(self.salud)
 
     def draw(self,screen):
 
