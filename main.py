@@ -6,7 +6,7 @@ from auxiliar import*
 from plataforma import*
 from niveles import*
 from items import*
-
+from barras import*
 
 screen = pygame.display.set_mode((ANCHO_VENTANA,ALTO_VENTANA))
 
@@ -19,7 +19,8 @@ fondo = pygame.transform.scale(fondo,(ANCHO_VENTANA,ALTO_VENTANA))
 
 items_group = pygame.sprite.Group()
 
-items = Items(200,400,"escopeta")
+items = Items(200,400,"escudo")
+
 items_group.add(items)
 
 
@@ -54,7 +55,6 @@ while True:
 
     delta_ms = clock.tick(FPS)
     player.control_horizontal(piso)
-    # bloque.draw(screen)
     dibujar_piso(screen,piso)
     player.update(delta_ms)
     player.draw(screen)

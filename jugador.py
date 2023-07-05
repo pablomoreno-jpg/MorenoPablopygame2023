@@ -3,6 +3,7 @@ from constantes import*
 from auxiliar import*
 from plataforma import*
 from balas import*
+from barras import*
 
 SPRITS_JUGADOR_L = {"default":{"idel":Auxliar.load_sprisheet(r"\characters\doom marine\default\idel.png",2,1),
                               "shoot": Auxliar.load_sprisheet(r"\characters\doom marine\default\shoot.png",3,1),
@@ -56,6 +57,9 @@ class Jugador(pygame.sprite.Sprite):
         self.disparando = False
         self.salto = False
         self.grupo_balas = pygame.sprite.Group()
+        self.salud_escudo = BarraSalud(x=10,y=40,barra_salud=self.salud,salud_maxima=self.salud_maxima,escudo=self.escudo,escudo_maximo=self.escudo_maximo)
+        
+
 
     def caminar(self,direccion):
 
@@ -282,7 +286,6 @@ class Jugador(pygame.sprite.Sprite):
 
 
     def do_animacion(self,delta_ms):
-
         self.tiempo_trasncurrio_animacion += delta_ms
 
         if self.mover_y > 0:
@@ -312,8 +315,8 @@ class Jugador(pygame.sprite.Sprite):
         self.do_animacion(delta_ms)
         self.rect = self.imagen.get_rect(topleft = (self.rect.x,self.rect.y))
         self.mask = pygame.mask.from_surface(self.imagen)
-        print(self.salud)
-
+       
+        
     def draw(self,screen):
 
         if DEBUG:
@@ -321,6 +324,7 @@ class Jugador(pygame.sprite.Sprite):
             pygame.draw.rect(screen,ROJO,self.rect)
 
         self.balas(screen)
+        self.salud_escudo.draw(self.salud,self.escudo,screen)
         self.imagen = self.animacion[self.frame]
         screen.blit(self.imagen,self.rect)
 
