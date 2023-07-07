@@ -26,12 +26,24 @@ class Bala(pygame.sprite.Sprite):
                 self.speed = 8
 
             case "default":
+                
+                imagen = Auxliar.load_sprisheet(r"\proyectiles\bullet.png",columnas=1,filas=3)[0]
+
+                imagen = pygame.transform.scale2x(imagen)
 
                 self.speed = 12
 
             case "plasma":
+                
+                imagen = Auxliar.load_sprisheet(r"\proyectiles\bullet.png",columnas=1,filas=3)[2]
 
                 self.speed = 17
+
+            case "rocket":
+                
+                imagen = Auxliar.load_sprisheet(r"\proyectiles\bullet.png",columnas=1,filas=3)[1]
+
+                self.speed = 5
 
 
         return imagen
@@ -60,13 +72,13 @@ class Bala(pygame.sprite.Sprite):
             self.kill()
 
 
-        if pygame.sprite.spritecollide(player, player.grupo_balas,False):
+        # if pygame.sprite.spritecollide(player, player.grupo_balas,False):
            
-            if player.salud_maxima > 0:
+        #     if player.salud_maxima > 0:
 
-                player.salud_maxima -= 5 
+        #         player.salud_maxima -= 5 
 
-                self.kill()
+        #         self.kill()
 
 
         

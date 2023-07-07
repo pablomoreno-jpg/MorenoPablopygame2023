@@ -7,11 +7,16 @@ from plataforma import*
 from niveles import*
 from items import*
 from barras import*
+from main_menu_gui import*
+
 
 screen = pygame.display.set_mode((ANCHO_VENTANA,ALTO_VENTANA))
 
 pygame.init()
 clock = pygame.time.Clock()
+
+
+pygame.display.set_caption("doom's gate")
 
 fondo = pygame.image.load(r"{0}\locations\forest\all.png".format(PHAT_RECURSOS))
 fondo = pygame.transform.scale(fondo,(ANCHO_VENTANA,ALTO_VENTANA))
@@ -40,28 +45,53 @@ for i  in range(-ANCHO_VENTANA // TAM_BLOQUE ,ANCHO_VENTANA*2// TAM_BLOQUE):
     piso.append(bloque)
 
 
-while True:
+pausa = False
+corriendo = True
+
+menu = Main_menu()
+
+
+
+while corriendo:
+
 
 
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             pygame.quit()
             sys.exit()    
+
+        if evento.type == pygame.KEYDOWN:
+
+            if evento.key == pygame.K_ESCAPE:
+                
+                if pausa == False:
+
+                    pausa = True
+
+                else:
+
+                    pausa = False
             
         player.control_vertical(piso,evento)
 
 
-
-
-    delta_ms = clock.tick(FPS)
-    player.control_horizontal(piso)
-    dibujar_piso(screen,piso)
-    player.update(delta_ms)
-    player.draw(screen)
-    items_group.update(player)
-    items_group.draw(screen)
-
     
+    if pausa:
+
+        menu.draw(screen)
+
+    else:
+
+        delta_ms = clock.tick(FPS)
+        player.control_horizontal(piso)
+        dibujar_piso(screen,piso)
+        player.update(delta_ms)
+        player.draw(screen)
+        items_group.update(player)
+        items_group.draw(screen)
+
+        
     pygame.display.flip()
     screen.blit(fondo,fondo.get_rect())
                             

@@ -257,11 +257,11 @@ class Jugador(pygame.sprite.Sprite):
                     if self.direccion == DIRECCION_R:
                        
 
-                        self.grupo_balas.add(Bala(self.rect.centerx + self.rect.size[0],self.rect.centery,self.direccion,"escopeta"))
+                        self.grupo_balas.add(Bala(self.rect.centerx + self.rect.size[0],self.rect.centery,self.direccion,self.arma))
                     
                     else:
                         
-                        self.grupo_balas.add(Bala(self.rect.centerx - self.rect.size[0],self.rect.centery,self.direccion,"escopeta"))
+                        self.grupo_balas.add(Bala(self.rect.centerx - self.rect.size[0],self.rect.centery,self.direccion,self.arma))
 
                     
                     self.cooldown_dispario = self.cooldown_maximo
