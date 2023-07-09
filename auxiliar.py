@@ -5,12 +5,13 @@ class Auxliar:
 
 
     @staticmethod
-    def load_sprisheet(directorio:str,columnas:int,filas:int,step = 1,direcciones = False) -> list:
+    def load_sprisheet(directorio:str,columnas:int,filas:int,step = 1,direcciones = False,) -> list:
 
         lista = []
 
-        imagen_superficie = pygame.image.load(r"{0}{1}".format(PHAT_RECURSOS,directorio))
+        imagen_superficie = pygame.image.load(directorio)
         
+
         fotograma_ancho = int(imagen_superficie.get_width() / columnas)
         fotograma_alto = int(imagen_superficie.get_height() / filas)
 

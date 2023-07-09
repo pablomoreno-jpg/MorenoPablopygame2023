@@ -5,21 +5,21 @@ from plataforma import*
 from balas import*
 from barras import*
 
-SPRITS_JUGADOR_L = {"default":{"idel":Auxliar.load_sprisheet(r"\characters\doom marine\default\idel.png",2,1),
-                              "shoot": Auxliar.load_sprisheet(r"\characters\doom marine\default\shoot.png",3,1),
-                              "walk":Auxliar.load_sprisheet(r"\characters\doom marine\default\walk.png",4,1)},
-                "escopeta":{"idel":Auxliar.load_sprisheet(r"\characters\doom marine\escopeta\idel.png",8,1),
-                              "shoot": Auxliar.load_sprisheet(r"\characters\doom marine\escopeta\shoot.png",5,1),
-                              "walk":Auxliar.load_sprisheet(r"\characters\doom marine\escopeta\walk.png",3,1)},
-                "salto":Auxliar.load_sprisheet(r"\characters\doom marine\jump.png",4,1)}
+SPRITS_JUGADOR_L = {"default":{"idel":Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\idel.png".format(PHAT_RECURSOS),2,1),
+                              "shoot": Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\shoot.png".format(PHAT_RECURSOS),3,1),
+                              "walk":Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\walk.png".format(PHAT_RECURSOS),4,1)},
+                "escopeta":{"idel":Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\idel.png".format(PHAT_RECURSOS),8,1),
+                              "shoot": Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\shoot.png".format(PHAT_RECURSOS),5,1),
+                              "walk":Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\walk.png".format(PHAT_RECURSOS),3,1)},
+                "salto":Auxliar.load_sprisheet(r"{0}\characters\doom marine\jump.png".format(PHAT_RECURSOS),4,1)}
 
-SPRITS_JUGADOR_R = {"default":{"idel":Auxliar.load_sprisheet(r"\characters\doom marine\default\idel.png",2,1,direcciones=True),
-                              "shoot": Auxliar.load_sprisheet(r"\characters\doom marine\default\shoot.png",3,1,direcciones=True),
-                              "walk":Auxliar.load_sprisheet(r"\characters\doom marine\default\walk.png",4,1,direcciones=True)},
-                "escopeta":{"idel":Auxliar.load_sprisheet(r"\characters\doom marine\escopeta\idel.png",8,1,direcciones=True),
-                              "shoot": Auxliar.load_sprisheet(r"\characters\doom marine\escopeta\shoot.png",5,1,direcciones=True),
-                              "walk":Auxliar.load_sprisheet(r"\characters\doom marine\escopeta\walk.png",3,1,direcciones=True)},
-                "salto":Auxliar.load_sprisheet(r"\characters\doom marine\jump.png",4,1,direcciones=True)}
+SPRITS_JUGADOR_R = {"default":{"idel":Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\idel.png".format(PHAT_RECURSOS),2,1,direcciones=True),
+                              "shoot": Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\shoot.png".format(PHAT_RECURSOS),3,1,direcciones=True),
+                              "walk":Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\walk.png".format(PHAT_RECURSOS),4,1,direcciones=True)},
+                "escopeta":{"idel":Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\idel.png".format(PHAT_RECURSOS),8,1,direcciones=True),
+                              "shoot": Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\shoot.png".format(PHAT_RECURSOS),5,1,direcciones=True),
+                              "walk":Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\walk.png".format(PHAT_RECURSOS),3,1,direcciones=True)},
+                "salto":Auxliar.load_sprisheet(r"{0}\characters\doom marine\jump.png".format(PHAT_RECURSOS),4,1,direcciones=True)}
 
 class Jugador(pygame.sprite.Sprite):
 

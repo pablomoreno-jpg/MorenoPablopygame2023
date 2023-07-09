@@ -2,8 +2,10 @@ import pygame
 
 
 
-IMGAENES_BOTONES = {"comenzar":pygame.image.load(r"mis imagenes\extras\opcion 1.png"),
+IMGAENES_BOTONES = {"comenzar":pygame.image.load(r"mis imagenes\extras\main menu\opcion 1.png"),
+                    "continuar":pygame.image.load(r"mis imagenes\extras\pausa\opcion 1.png"),
                     "opciones":pygame.image.load(r"mis imagenes\extras\opcion 2.png"),
+                    "salir menu":pygame.image.load(r"mis imagenes\extras\pausa\opcion 4.png"),
                     "salir":pygame.image.load(r"mis imagenes\extras\opcion 3.png")}
 
 
@@ -12,7 +14,7 @@ class Boton():
         
         self.imagen = IMGAENES_BOTONES[nombre_boton]
         self.rect = self.imagen.get_rect()
-        self.rect.centerx = x
+        self.rect.x= x
         self.rect.y = y 
         self.click = False
 

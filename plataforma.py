@@ -4,15 +4,15 @@ from auxiliar import*
 
 
 
-def get_block(phat_bloques:str,size:int,pos_x:int,pos_y:int) -> pygame:
+# def get_block(phat_bloques:str,size:int,pos_x:int,pos_y:int) -> pygame:
 
-    imagen = pygame.image.load(phat_bloques).convert_alpha()
-    superfice = pygame.Surface((size,size),pygame.SRCALPHA, 32)
-    rect = pygame.Rect(pos_x,pos_y,size,size)
+#     imagen = pygame.image.load(phat_bloques).convert_alpha()
+#     superfice = pygame.Surface((size,size),pygame.SRCALPHA, 32)
+#     rect = pygame.Rect(pos_x,pos_y,size,size)
     
-    superfice.blit(imagen,(0,0), rect)
+#     superfice.blit(imagen,(0,0), rect)
 
-    return superfice
+#     return superfice
 
 
 class Objeto(pygame.sprite.Sprite):
@@ -39,21 +39,16 @@ class Objeto(pygame.sprite.Sprite):
 
 class Plataforma(Objeto):
 
-    def __init__(self, x, y,tamaño,path,columna_x = 0,fila_y = 0) -> None:
+    def __init__(self, x, y,tamaño,path,image_indec,columnas = 0,filas = 0) -> None:
 
-        super().__init__(x, y, tamaño, tamaño)
-        self.pos_x = tamaño * columna_x
-        self.pos_y = tamaño * fila_y
-        block = get_block(path,tamaño,self.pos_x,self.pos_y)
-        self.imagen.blit(block, (0, 0))
+        super().__init__(x, y, tamaño,path)
+        imagen = Auxliar.load_sprisheet(path,columnas=24,filas=12)[image_indec]
+        self.pos_x = tamaño * columnas
+        self.pos_y = tamaño * filas
+        self.imagen.blit(imagen, (0, 0))
         self.mask = pygame.mask.from_surface(self.imagen)
         self.path = path
 
         
         
 
-def dibujar_piso(patalla, piso):
-
-    for bloque in piso:
-
-        bloque.draw(patalla)

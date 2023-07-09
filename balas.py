@@ -27,7 +27,7 @@ class Bala(pygame.sprite.Sprite):
 
             case "default":
                 
-                imagen = Auxliar.load_sprisheet(r"\proyectiles\bullet.png",columnas=1,filas=3)[0]
+                imagen = Auxliar.load_sprisheet(r"{0}\bullet.png".format(PAHT_PROYECTILES),columnas=1,filas=3)[0]
 
                 imagen = pygame.transform.scale2x(imagen)
 
@@ -35,13 +35,13 @@ class Bala(pygame.sprite.Sprite):
 
             case "plasma":
                 
-                imagen = Auxliar.load_sprisheet(r"\proyectiles\bullet.png",columnas=1,filas=3)[2]
+                imagen = Auxliar.load_sprisheet(r"{0}\bullet.png".format(PAHT_PROYECTILES),columnas=1,filas=3)[2]
 
                 self.speed = 17
 
             case "rocket":
                 
-                imagen = Auxliar.load_sprisheet(r"\proyectiles\bullet.png",columnas=1,filas=3)[1]
+                imagen = Auxliar.load_sprisheet(r"{0}\bullet.png".format(PAHT_PROYECTILES),columnas=1,filas=3)[1]
 
                 self.speed = 5
 

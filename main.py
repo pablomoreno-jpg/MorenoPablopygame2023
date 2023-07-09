@@ -7,7 +7,7 @@ from plataforma import*
 from niveles import*
 from items import*
 from barras import*
-from main_menu_gui import*
+from menus_gui import*
 
 
 screen = pygame.display.set_mode((ANCHO_VENTANA,ALTO_VENTANA))
@@ -28,33 +28,32 @@ items = Items(200,400,"escudo")
 
 items_group.add(items)
 
+nivel = Nivel(NIVELES[0]["prueba"],columnas_nivel=15,filas_nivel=26)
+
+nivel.prosesar_data()
 
 
-bloque_1 = Plataforma(x= 100,y= 300,tamaño=TAM_BLOQUE,path=(r"{}{}".format(PHAT_RECURSOS,PAHT_BLOQUES_AZUL)),columna_x= 1,fila_y= 0)
+# bloque_1 = Plataforma(x= 100,y= 300,tamaño=TAM_BLOQUE,path=(r"{}{}".format(PHAT_RECURSOS,PAHT_BLOQUES_AZUL)),columna_x= 1,fila_y= 0)
 
 player = Jugador(x=10, y=10, velocidad=6,framerate_animacion= 150 , framerate_moviemiento= 18)
 
-piso = []
 
 
 
-for i  in range(-ANCHO_VENTANA // TAM_BLOQUE ,ANCHO_VENTANA*2// TAM_BLOQUE):
 
-    bloque = Plataforma(x= i * TAM_BLOQUE,y=500,tamaño=TAM_BLOQUE,path=(r"{}{}".format(PHAT_RECURSOS,PAHT_BLOQUES_AZUL)),columna_x= 0,fila_y= 0)
+# for i  in range(-ANCHO_VENTANA // TAM_BLOQUE ,ANCHO_VENTANA*2// TAM_BLOQUE):
+
+#     bloque = Plataforma(x= i * TAM_BLOQUE,y=500,tamaño=TAM_BLOQUE,path=r"C:\Users\pablo\OneDrive\Escritorio\pygame 2023\mis imagenes\locations\bloques\bloques.png",columna_x= 0,fila_y= 0)
     
-    piso.append(bloque)
+#     piso.append(bloque)
 
 
-pausa = False
+flag_pausa = False
 corriendo = True
 
-menu = Main_menu()
-
-
+pausa = Pausa(corriendo)
 
 while corriendo:
-
-
 
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
@@ -65,33 +64,28 @@ while corriendo:
 
             if evento.key == pygame.K_ESCAPE:
                 
-                if pausa == False:
-
-                    pausa = True
-
-                else:
-
-                    pausa = False
+                flag_pausa = True
             
-        player.control_vertical(piso,evento)
+        player.control_vertical(nivel.lista_ostaculos,evento)
 
 
     
-    if pausa:
+    if flag_pausa:
 
-        menu.draw(screen)
+        flag_pausa,corriendo = pausa.draw(screen)
+
+        print(flag_pausa)
 
     else:
 
         delta_ms = clock.tick(FPS)
-        player.control_horizontal(piso)
-        dibujar_piso(screen,piso)
+        player.control_horizontal(nivel.lista_ostaculos)
         player.update(delta_ms)
         player.draw(screen)
         items_group.update(player)
         items_group.draw(screen)
-
-        
+        nivel.draw(screen)
+    
     pygame.display.flip()
     screen.blit(fondo,fondo.get_rect())
                             

@@ -1,71 +1,90 @@
 import pygame
 import csv
+import re
 from constantes import*
 from jugador import*
 from plataforma import*
 from enemigos import*
 from auxiliar import*
+from items import*
 
 
-def leer_csv(nombre:str)-> list:
+def leer_csv(nombre:str,columnas,filas)-> list:
 
-    nivel = []
+    archivo_leido = []
 
-    with open(nombre,"r",newline= "") as archivo:
+    #creo una lista de listas caragada con -1
+    for fila in range(filas):
+
+        r = [-1] * columnas
+
+        archivo_leido.append(r) 
+
+    with open(nombre,"r",newline='') as archivo:
         
-        leer = csv.reader(archivo, delimiter=',')
+        leer = csv.reader(archivo, delimiter=';')
 
-        for x, fila in enumerate(leer):
-
-            for y, columna in enumerate(fila):
-
-                nivel[x][y] = int(columna)
         
-    return nivel
+
+        for x, linea in enumerate(leer):
+
+            for y, num_bloque in enumerate(linea): 
+
+                archivo_leido[x][y] = int(num_bloque)
+
+    return archivo_leido
 
 
-# class Niveles(pygame.sprite.Sprite):
-
-#     def __init__(self,path_niveles,screen) -> None:
-#         super().__init__()
-#         self.lista_niveles = leer_csv(path_niveles)
-#         self.screen = screen
-#         self.paht_bloque = ""
-#         self.bloque = None
-
-#     def buscar_path(self,color_bloque:str):
-
-#         if color_bloque == "azul":
-
-#             self.paht_bloque = r"{0}{1}".format(PHAT_RECURSOS,PAHT_BLOQUES_AZUL)
+class Nivel():
+    
+    def __init__(self,nivel,columnas_nivel,filas_nivel) -> None:
         
-#         elif color_bloque == "amarillo":
+        self.lista_ostaculos = []
+        self.columnas = columnas_nivel
+        self.filas = filas_nivel
+        self.nivel = nivel
+    
 
-#             self.paht_bloque =r"{0}{1}".format(PHAT_RECURSOS,PAHT_BLOQUES_AMARILLO)
+    def prosesar_data(self):
+        
+        data = leer_csv(self.nivel,self.columnas,self.filas)
 
-#     def cargar_bloque(self,numero_bloque,nombre_bloque,pos_x,pos_y):
-          
-#         #21 * 8
+        for y, fila, in enumerate(data):
+            
+            for x, columna in enumerate(fila):
 
-#         self.buscar_path(nombre_bloque)
+                if columna >= 0 and columna < 288 and type(columna) == int:
+                        
+                        if columna == 6:
 
-#         if numero_bloque < 0:
+                            #jugador
+
+                            pass
+
+                        elif columna == 7:
+                            
+                            #item
+
+                            pass
+                        
+                        elif columna == 12:
+
+                            #enemigo
+                            pass
+                        else:
+
+                            bloque = Plataforma(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,tamaño=TAM_BLOQUE,path=BLOQUES,image_indec=columna,columnas=24,filas=12)
 
 
-#             pass
+                            self.lista_ostaculos.append(bloque)
 
+                        pass
+                    
+            
+    def draw(self,screen):
+        
+        for bloque in self.lista_ostaculos:
 
-#     def crear_nivel(self):
+            bloque.draw(screen)
 
-#         for y in range(-ALTO_VENTANA // TAM_BLOQUE ,ALTO_VENTANA*2// TAM_BLOQUE):
-
-#             for x in range(-ANCHO_VENTANA // TAM_BLOQUE ,ANCHO_VENTANA*2// TAM_BLOQUE):
-
-                
-
-
-#                 pass
-
-
-#     def draw_level(slef,screan):
-#         pass   
+            

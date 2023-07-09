@@ -4,21 +4,21 @@ from constantes import*
 from auxiliar import*
 from jugador import*
 
-ITEMS = {"escopeta":Auxliar.load_sprisheet(r"\items\armas.png", 1, 3)[0],
-        "bazuca":Auxliar.load_sprisheet(r"\items\armas.png", 1, 3)[1],
-        "plasma":Auxliar.load_sprisheet(r"\items\armas.png", 1, 3)[2],
-        "posion": Auxliar.load_sprisheet(r"\items\posion vida.png", 4, 1)[-1],
-         "botiquin pequeño": Auxliar.load_sprisheet(r"\items\vida.png", 1, 2)[0],
-         "botiquin": Auxliar.load_sprisheet(r"\items\vida.png", 1, 2)[1],
-         "escudo pequeño": Auxliar.load_sprisheet(r"\items\escudo.png", 2, 2)[3],
-         "escudo": Auxliar.load_sprisheet(r"\items\escudo max.png", 2, 1)[0],
-         "granadas": Auxliar.load_sprisheet(r"\items\municion.png",2,2)[0],
-         "misil unit": Auxliar.load_sprisheet(r"\items\municion.png", 3, 2)[1],
-         "misiles": Auxliar.load_sprisheet(r"\items\municion.png", 3, 2)[2],
-         "misiles y granadas": Auxliar.load_sprisheet(r"\items\municion.png", 3, 2)[3],
-         "punto_2": Auxliar.load_sprisheet(r"\items\puntos.png", 3, 2)[1],
-         "puntos_5": Auxliar.load_sprisheet(r"\items\puntos.png", 3, 2)[3],
-         "puntos_10": Auxliar.load_sprisheet(r"\items\puntos.png", 3, 2)[5]}
+ITEMS = {"escopeta":Auxliar.load_sprisheet(r"{0}\items\armas.png".format(PHAT_RECURSOS), 1, 3)[0],
+        "bazuca":Auxliar.load_sprisheet(r"{0}\items\armas.png".format(PHAT_RECURSOS), 1, 3)[1],
+        "plasma":Auxliar.load_sprisheet(r"{0}\items\armas.png".format(PHAT_RECURSOS), 1, 3)[2],
+        "posion": Auxliar.load_sprisheet(r"{0}\items\posion vida.png".format(PHAT_RECURSOS), 4, 1)[-1],
+         "botiquin pequeño": Auxliar.load_sprisheet(r"{0}\items\vida.png".format(PHAT_RECURSOS), 1, 2)[0],
+         "botiquin": Auxliar.load_sprisheet(r"{0}\items\vida.png".format(PHAT_RECURSOS), 1, 2)[1],
+         "escudo pequeño": Auxliar.load_sprisheet(r"{0}\items\escudo.png".format(PHAT_RECURSOS), 2, 2)[3],
+         "escudo": Auxliar.load_sprisheet(r"{0}\items\escudo max.png".format(PHAT_RECURSOS), 2, 1)[0],
+         "granadas": Auxliar.load_sprisheet(r"{0}\items\municion.png".format(PHAT_RECURSOS),2,2)[0],
+         "misil unit": Auxliar.load_sprisheet(r"{0}\items\municion.png".format(PHAT_RECURSOS), 3, 2)[1],
+         "misiles": Auxliar.load_sprisheet(r"{0}\items\municion.png".format(PHAT_RECURSOS), 3, 2)[2],
+         "misiles y granadas": Auxliar.load_sprisheet(r"{0}\items\municion.png".format(PHAT_RECURSOS), 3, 2)[3],
+         "punto_2": Auxliar.load_sprisheet(r"{0}\items\puntos.png".format(PHAT_RECURSOS), 3, 2)[1],
+         "puntos_5": Auxliar.load_sprisheet(r"{0}\items\puntos.png".format(PHAT_RECURSOS), 3, 2)[3],
+         "puntos_10": Auxliar.load_sprisheet(r"{0}\items\puntos.png".format(PHAT_RECURSOS), 3, 2)[5]}
 
 class Items(pygame.sprite.Sprite):
 
