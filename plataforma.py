@@ -28,7 +28,7 @@ class Objeto(pygame.sprite.Sprite):
 
         if DEBUG:
             
-            pygame.draw.rect(screen,VERDE,self.rect)
+            pygame.draw.rect(screen,ROJO,self.rect)
         
         else:
             screen.blit(self.imagen,(self.rect.x, self.rect.y))

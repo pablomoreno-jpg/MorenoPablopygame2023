@@ -28,24 +28,12 @@ items = Items(200,400,"escudo")
 
 items_group.add(items)
 
-nivel = Nivel(NIVELES[0]["prueba"],columnas_nivel=15,filas_nivel=26)
+nivel = Nivel(NIVELES[0]["prueba"],columnas_nivel=32,filas_nivel=22)
 
 nivel.prosesar_data()
 
-
-# bloque_1 = Plataforma(x= 100,y= 300,tamaño=TAM_BLOQUE,path=(r"{}{}".format(PHAT_RECURSOS,PAHT_BLOQUES_AZUL)),columna_x= 1,fila_y= 0)
-
-player = Jugador(x=10, y=10, velocidad=6,framerate_animacion= 150 , framerate_moviemiento= 18)
-
-
-
-
-
-# for i  in range(-ANCHO_VENTANA // TAM_BLOQUE ,ANCHO_VENTANA*2// TAM_BLOQUE):
-
-#     bloque = Plataforma(x= i * TAM_BLOQUE,y=500,tamaño=TAM_BLOQUE,path=r"C:\Users\pablo\OneDrive\Escritorio\pygame 2023\mis imagenes\locations\bloques\bloques.png",columna_x= 0,fila_y= 0)
-    
-#     piso.append(bloque)
+player = Jugador(x=10, y=10, velocidad=6,framerate_animacion= 200, framerate_moviemiento= 18)
+enemigo = Enemigo(x=20, y =20,velocidad=4,framerate_animacion= 200, framerate_moviemiento= 18,tipo_enemigo="soldado 2")
 
 
 flag_pausa = False
@@ -74,18 +62,21 @@ while corriendo:
 
         flag_pausa,corriendo = pausa.draw(screen)
 
-        print(flag_pausa)
 
     else:
 
         delta_ms = clock.tick(FPS)
+        nivel.draw(screen)
         player.control_horizontal(nivel.lista_ostaculos)
+        # enemigo.colicion_horizontal(nivel.lista_ostaculos)
         player.update(delta_ms)
         player.draw(screen)
+        # enemigo.draw(screen)
+        enemigo.update(delta_ms)
         items_group.update(player)
         items_group.draw(screen)
-        nivel.draw(screen)
-    
+        
+
     pygame.display.flip()
     screen.blit(fondo,fondo.get_rect())
                             
