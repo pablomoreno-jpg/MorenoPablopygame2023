@@ -4,7 +4,7 @@ ANCHO_VENTANA = 1050
 ALTO_VENTANA= 700
 FPS = 60
 
-DEBUG = False
+DEBUG = True
 
 PHAT_RECURSOS =  r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\mis imagenes"
 PAHT_ENEMIGOS = r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\mis imagenes\characters\enemigos"
@@ -17,8 +17,9 @@ DIRECCION_L = 1
 GRAVEDAD = 1  
 
 TAM_BLOQUE = 32
-LISTA_TRAMPAS = [20,19,44,78,77,69,92,124]
-LISTA_LIQUIDOS = [107,130,268]
+LISTA_TRAMPAS = [59,19,20,44,68,67,91]
+LISTA_LIQUIDOS = [108,132]
+AGUA = 268
 
 
 BLOQUES = r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\mis imagenes\locations\bloques\bloques.png"

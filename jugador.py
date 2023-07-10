@@ -5,22 +5,31 @@ from plataforma import*
 from balas import*
 from barras import*
 
-SPRITS_JUGADOR_L = {"default":{"idel":Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\idel.png".format(PHAT_RECURSOS),2,1),
-                              "shoot": Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\shoot.png".format(PHAT_RECURSOS),3,1),
-                              "walk":Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\walk.png".format(PHAT_RECURSOS),4,1)},
-                "escopeta":{"idel":Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\idel.png".format(PHAT_RECURSOS),8,1),
-                              "shoot": Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\shoot.png".format(PHAT_RECURSOS),5,1),
-                              "walk":Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\walk.png".format(PHAT_RECURSOS),3,1)},
-                "salto":Auxliar.load_sprisheet(r"{0}\characters\doom marine\jump.png".format(PHAT_RECURSOS),5,1)}
+SPRITS_JUGADOR_L = {"default": {"idel": Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\idel.png".format(PHAT_RECURSOS), 2, 1),
+                                "shoot": Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\shoot.png".format(PHAT_RECURSOS), 3, 1),
+                                "walk": Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\walk.png".format(PHAT_RECURSOS), 4, 1)},
+                    "escopeta": {"idel": Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\idel.png".format(PHAT_RECURSOS), 8, 1),
+                                 "shoot": Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\shoot.png".format(PHAT_RECURSOS), 5, 1),
+                                 "walk": Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\walk.png".format(PHAT_RECURSOS), 3, 1)},
+                    "plasma": {"idel": Auxliar.load_sprisheet(r"{0}\characters\doom marine\plasma\idel.png".format(PHAT_RECURSOS), 6, 1),
+                               "shoot": Auxliar.load_sprisheet(r"{0}\characters\doom marine\plasma\shoot.png".format(PHAT_RECURSOS), 4, 1),
+                               "walk": Auxliar.load_sprisheet(r"{0}\characters\doom marine\plasma\walk.png".format(PHAT_RECURSOS), 3, 1)},
+                    "salto": Auxliar.load_sprisheet(r"{0}\characters\doom marine\jump.png".format(PHAT_RECURSOS), 5, 1),
+                    "daño": Auxliar.load_sprisheet(r"{0}\characters\doom marine\dead.png".format(PHAT_RECURSOS), 7, 1)[0:1],
+                    "muerte": Auxliar.load_sprisheet(r"{0}\characters\doom marine\dead.png".format(PHAT_RECURSOS), 7, 1)}
 
-SPRITS_JUGADOR_R = {"default":{"idel":Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\idel.png".format(PHAT_RECURSOS),2,1,direcciones=True),
-                              "shoot": Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\shoot.png".format(PHAT_RECURSOS),3,1,direcciones=True),
-                              "walk":Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\walk.png".format(PHAT_RECURSOS),4,1,direcciones=True)},
-                "escopeta":{"idel":Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\idel.png".format(PHAT_RECURSOS),8,1,direcciones=True),
-                              "shoot": Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\shoot.png".format(PHAT_RECURSOS),5,1,direcciones=True),
-                              "walk":Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\walk.png".format(PHAT_RECURSOS),3,1,direcciones=True)},
-                "salto":Auxliar.load_sprisheet(r"{0}\characters\doom marine\jump.png".format(PHAT_RECURSOS),5,1,direcciones=True)}
-
+SPRITS_JUGADOR_R = {"default": {"idel": Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\idel.png".format(PHAT_RECURSOS), 2, 1, direcciones=True),
+                                "shoot": Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\shoot.png".format(PHAT_RECURSOS), 3, 1, direcciones=True),
+                                "walk": Auxliar.load_sprisheet(r"{0}\characters\doom marine\default\walk.png".format(PHAT_RECURSOS), 4, 1, direcciones=True)},
+                    "escopeta": {"idel": Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\idel.png".format(PHAT_RECURSOS), 8, 1, direcciones=True),
+                                 "shoot": Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\shoot.png".format(PHAT_RECURSOS), 5, 1, direcciones=True),
+                                 "walk": Auxliar.load_sprisheet(r"{0}\characters\doom marine\escopeta\walk.png".format(PHAT_RECURSOS), 3, 1, direcciones=True)},
+                    "plasma": {"idel": Auxliar.load_sprisheet(r"{0}\characters\doom marine\plasma\idel.png".format(PHAT_RECURSOS), 6, 1, direcciones=True),
+                               "shoot": Auxliar.load_sprisheet(r"{0}\characters\doom marine\plasma\shoot.png".format(PHAT_RECURSOS), 4, 1, direcciones=True),
+                               "walk": Auxliar.load_sprisheet(r"{0}\characters\doom marine\plasma\walk.png".format(PHAT_RECURSOS), 3, 1, direcciones=True)},
+                    "salto": Auxliar.load_sprisheet(r"{0}\characters\doom marine\jump.png".format(PHAT_RECURSOS), 5, 1, direcciones=True),
+                    "daño": Auxliar.load_sprisheet(r"{0}\characters\doom marine\dead.png".format(PHAT_RECURSOS), 7, 1, direcciones=True)[0:1],
+                    "muerte": Auxliar.load_sprisheet(r"{0}\characters\doom marine\dead.png".format(PHAT_RECURSOS), 7, 1, direcciones=True)}
 class Jugador(pygame.sprite.Sprite):
 
     def __init__(self,x,y,velocidad,framerate_animacion,framerate_moviemiento) -> None:
@@ -30,12 +39,8 @@ class Jugador(pygame.sprite.Sprite):
         self.salud = 100
         self.salud_maxima = self.salud
         self.escudo_maximo = 50
+        self.vivo = True
         self.escudo = 0
-        self.grandas_maximas = 6
-        self.grandas = 0
-        self.misiles_maximos = 10
-        self.munision_misiles = 0
-        self.contador_salto = 0
         self.contador_caida = 0
         self.speed = velocidad
         self.frame = 0
@@ -45,7 +50,7 @@ class Jugador(pygame.sprite.Sprite):
         self.cooldown_maximo = 15
         self.animacion = SPRITS_JUGADOR_R[self.arma]["idel"]
         self.imagen = self.animacion[self.frame]
-        self.mask = self.mask = pygame.mask.from_surface(self.imagen)
+        # self.mask = self.mask = pygame.mask.from_surface(self.imagen)
         self.rect = self.imagen.get_rect()
         self.ancho = self.imagen.get_width()
         self.alto = self.imagen.get_height()
@@ -119,6 +124,47 @@ class Jugador(pygame.sprite.Sprite):
         self.mover_x = 0
         self.mover_y = 0
 
+    def daño(self,cantidad_daño):
+
+        if self.direccion == DIRECCION_R:
+
+
+            self.animacion = SPRITS_JUGADOR_R["daño"]
+
+            self.mover_x = -2
+
+        else:
+
+            self.animacion = SPRITS_JUGADOR_L["daño"]
+
+            self.mover_x = 2
+
+        self.mover_y = -5
+
+        if self.escudo > 0:
+
+            self.escudo -= cantidad_daño
+        else:
+
+            self.salud -= cantidad_daño
+        
+        if self.frame > len(self.animacion)-1:
+            self.frame = 0
+
+    def muerte(self):
+
+        if self.salud < 0:
+
+            if self.direccion == DIRECCION_R:
+
+                self.animacion = SPRITS_JUGADOR_R["muerte"]
+
+            else:
+
+                self.animacion = SPRITS_JUGADOR_L["muerte"]
+
+            self.vivo = False
+
     def quieto(self):
 
         if self.animacion != SPRITS_JUGADOR_R[self.arma]["idel"] and self.animacion != SPRITS_JUGADOR_L[self.arma]["idel"]:
@@ -154,35 +200,12 @@ class Jugador(pygame.sprite.Sprite):
 
         for obj in objetos:
 
-            if pygame.sprite.collide_mask(self,obj):
-                
-                if not self.salto:
+            if obj.rect.colliderect(self.rect.x,self.rect.y + self.mover_y,self.ancho,self.alto):
                     
                     if desplazamineto_y >= 0:
 
                         self.rect.bottom = obj.rect.top
                         self.landed(obj.rect.top)
-                        # self.aterrisaje = True
-
-                
-
-            # if obj.rect.colliderect(self.rect.x + self.mover_x,self.rect.y -0.1,self.ancho,self.alto):
-
-            #         if self.rect.x >= obj.rect.x +6:
-
-            #             self.mover_x = 0
-
-            #         elif (self.rect.x - 10)  >  - (obj.rect.x + 10):
-            #             print("va a tocar")
-                    
-            #             self.mover_x = 0
-                    
-
-
-            # else:
-
-            #     self.aterrisaje = False
-
 
         return coleccion_objetos
 
@@ -195,45 +218,59 @@ class Jugador(pygame.sprite.Sprite):
 
                     if self.rect.x >= obj.rect.x +6:
 
-                        self.mover_x = 0
-
-                    elif (self.rect.x + 30) >= -obj.rect.x and self.rect.bottom != obj.rect.top:
-                        
-                        print("va a tocar")
                         self.quieto()
 
+                    elif (self.rect.x + 30) >= -obj.rect.x + 6:
+                        
+                        self.quieto()
 
-    def control_horizontal(self,objeto):
+    def coliccion_trampa(self,objeto,desplazamineto_y):
+
+        for obj in objeto:
+
+            if obj.rect.colliderect(self.rect.x,self.rect.y + self.mover_y,self.ancho,self.alto):
+                
+                if self.direccion == DIRECCION_R:
+
+                    self.mover_x = -5
+
+                else:
+
+                    self.mover_x = 5
+
+                self.mover_y = - 10
+                self.contador_salto = 0
+                self.daño(0.5)
+
+    def control_horizontal(self,objeto,trampas):
 
         keys = pygame.key.get_pressed()
 
-        # collide_izquierda = self.collide(objeto,-1)
-        # collide_derecha = self.collide(objeto,1)
+        if self.vivo:
 
+            if not keys[pygame.K_SPACE] and not keys[pygame.K_l]:
 
-        if not keys[pygame.K_SPACE] and not keys[pygame.K_l] :
+                if (keys[pygame.K_d] and not keys[pygame.K_a]) :
 
-            if (keys[pygame.K_d] and not keys[pygame.K_a]) :
+                    self.caminar(DIRECCION_R)
 
-                self.caminar(DIRECCION_R)
+                if (keys[pygame.K_a] and not keys[pygame.K_d]) :
 
-            if (keys[pygame.K_a] and not keys[pygame.K_d]) :
+                    self.caminar(DIRECCION_L)
 
-                self.caminar(DIRECCION_L)
+                if not keys[pygame.K_a] and not keys[pygame.K_d]:
 
-            if not keys[pygame.K_a] and not keys[pygame.K_d]:
+                    self.quieto()
 
-                self.quieto()
+                if  keys[pygame.K_a] and  keys[pygame.K_d]:
 
-            if  keys[pygame.K_a] and  keys[pygame.K_d]:
+                    self.quieto()
 
-                self.quieto()
-            
-            self.colicion_horizontal(objeto)
-
+                self.coliccion_trampa(trampas,self.mover_x)
+        self.colicion_horizontal(objeto)
         self.colicion_vertical(objeto,self.mover_y)
         
-    def control_vertical(self,objeto:list[Objeto],evento):
+    def control_vertical(self,objeto:list[Objeto],evento,trampas):
 
         if evento.type == pygame.KEYDOWN:
 
@@ -251,8 +288,9 @@ class Jugador(pygame.sprite.Sprite):
 
                 self.disparando = False
         
+        self.colicion_horizontal(objeto)
         self.colicion_vertical(objeto,self.mover_y)
-    
+
     def balas(self,screen):
 
         self.grupo_balas.draw(screen)
@@ -264,7 +302,6 @@ class Jugador(pygame.sprite.Sprite):
 
         self.mover_y += min(1, (self.contador_caida / FPS) * GRAVEDAD)
 
-
         self.tiempo_trasncurrio_moviento += delta_ms
 
         if self.tiempo_trasncurrio_moviento >= self.frame_rate_movimiento:
@@ -275,11 +312,15 @@ class Jugador(pygame.sprite.Sprite):
 
                 self.salto = False
 
+            if self.vivo:
 
-            self.add_x(self.mover_x)
-            self.add_y(self.mover_y)
+                self.add_x(self.mover_x)
+                self.add_y(self.mover_y)
 
+            
+            self.muerte()
 
+  
             self.tiempo_trasncurrio_moviento = 0
 
         self.contador_caida += 1
@@ -308,21 +349,12 @@ class Jugador(pygame.sprite.Sprite):
         pass
 
     def add_x(self,delta_x):
-
-        self.rect.x += delta_x
-
-        pass
+            
+            self.rect.x += delta_x
     
     def add_y(self,delta_y):
-
-        self.rect.y += delta_y
-
-        pass
-
-    def update_mask(self):
-
-        self.rect = self.imagen.get_rect(topleft = (self.rect.x,self.rect.y))
-        self.mask = pygame.mask.from_surface(self.imagen)
+   
+            self.rect.y += delta_y
 
     def do_animacion(self,delta_ms):
         self.tiempo_trasncurrio_animacion += delta_ms
@@ -342,8 +374,10 @@ class Jugador(pygame.sprite.Sprite):
                 self.frame += 1
 
             else:
-
-                self.frame = 0
+                
+                if self.vivo == True:
+                    
+                    self.frame = 0
 
         
         if self.cooldown_dispario > 0:
@@ -353,10 +387,10 @@ class Jugador(pygame.sprite.Sprite):
 
         self.do_moviento(delta_ms)
         self.do_animacion(delta_ms)
-        self.update_mask()  
+
         
     def draw(self,screen):
-        self.salud_escudo.draw(self.salud,self.escudo,screen)
+       
         if DEBUG:
 
             pygame.draw.rect(screen,ROJO,self.rect)
@@ -365,4 +399,5 @@ class Jugador(pygame.sprite.Sprite):
         self.balas(screen)
         self.imagen = self.animacion[self.frame]
         screen.blit(self.imagen,self.rect)
+        self.salud_escudo.draw(self.salud,self.escudo,screen)
 

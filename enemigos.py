@@ -5,7 +5,7 @@ from plataforma import*
 from balas import*
 
 
-SPRITS_ENEMIGOS_R = {"imp": {"walk": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[0:2],
+SPRITS_ENEMIGOS_L = {"imp": {"walk": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[0:2],
                              "idel": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[1:2],
                              "shoot": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[3:5],
                              "damege": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[6:8]},
@@ -26,7 +26,7 @@ SPRITS_ENEMIGOS_R = {"imp": {"walk": Auxliar.load_sprisheet(r"{}\imp.png".format
                                        "damege": Auxliar.load_sprisheet(r"{}\super demonio.png".format(PAHT_ENEMIGOS), columnas=4, filas=3, direcciones=True)[6:8]}
                      }
 
-SPRITS_ENEMIGOS_L = {"imp": {"walk": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3,)[0:2],
+SPRITS_ENEMIGOS_R = {"imp": {"walk": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3,)[0:2],
                              "idel": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3)[1:2],
                              "shoot": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3,)[3:5],
                              "damege": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3,)[6:8]},
@@ -150,9 +150,9 @@ class Enemigo(pygame.sprite.Sprite):
             self.mover_y = 0
             self.frame = 0
 
-    def landed(self):
+    def landed(self,rect):
         
-        self.mover_y = 0
+        self.mover_y = rect - self.rect.bottom
         self.contador_caida = 0
         self.contador_salto = 0
 
@@ -160,26 +160,65 @@ class Enemigo(pygame.sprite.Sprite):
 
         self.mover_y *= -1
 
-    def colicion_horizontal(self,objetos:list[Objeto]):
+    def colicion_vertical(self,objetos:list[Objeto],desplazamineto_y):
 
         coleccion_objetos = []
 
         for obj in objetos:
 
-            if pygame.sprite.collide_mask(self,obj):
+            # if pygame.sprite.collide_mask(self,obj):
+            if obj.rect.colliderect(self.rect.x,self.rect.y + self.mover_y,self.ancho,self.alto):
+
+                if not self.salto:
                     
-                if self.mover_y >= 0:
+                    if desplazamineto_y >= 0:
 
-                    self.rect.bottom = obj.rect.top
-                    self.landed()
+                        self.rect.bottom = obj.rect.top
+                        self.landed(obj.rect.top)
+                        # self.aterrisaje = True
+
+                else:
+
+                    if desplazamineto_y >= 0 and   self.rect.bottom >= obj.rect.top:
+
+                        self.landed(obj.rect.top)
 
 
-            
+            # if obj.rect.colliderect(self.rect.x + self.mover_x,self.rect.y -0.1,self.ancho,self.alto):
+
+            #         if self.rect.x >= obj.rect.x +6:
+
+            #             self.mover_x = 0
+
+            #         elif (self.rect.x - 10)  >  - (obj.rect.x + 10):
+            #             print("va a tocar")
+                    
+            #             self.mover_x = 0
+                    
+
+
+            # else:
+
+            #     self.aterrisaje = False
+
+
         return coleccion_objetos
 
-    def collide(self,objetos,):
-        pass
-    
+    def colicion_horizontal(self,objetos):
+
+        for obj in objetos:
+
+
+            if obj.rect.colliderect(self.rect.x + self.mover_x,self.rect.y -0.1,self.ancho,self.alto):
+
+                    if self.rect.x >= obj.rect.x +6:
+
+                        self.quieto()
+
+                    elif (self.rect.x + 30) >= -obj.rect.x + 6:
+                        
+                        self.quieto()
+   
     def balas(self,screen):
 
         self.grupo_balas.draw(screen)
@@ -233,6 +272,21 @@ class Enemigo(pygame.sprite.Sprite):
             self.cooldown_dispario -= 1
 
         pass
+    
+    def ia_movimientos(self,objetos):
+
+        if self.direccion == DIRECCION_R and self.mover_x > TAM_BLOQUE:
+
+            self.mover_x += self.speed
+
+        elif self.mover_x < TAM_BLOQUE:
+
+            self.mover_x += -self.speed
+        
+        
+        
+        self.colicion_horizontal(objetos)
+        self.colicion_vertical(objetos,self.mover_y)
 
     def add_x(self,delta_x):
 
@@ -279,7 +333,7 @@ class Enemigo(pygame.sprite.Sprite):
 
         self.do_moviento(delta_ms)
         self.do_animacion(delta_ms)
-        self.update_mask()  
+        # self.update_mask()  
         
     def draw(self,screen):
 

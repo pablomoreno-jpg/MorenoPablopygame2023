@@ -39,7 +39,9 @@ class Nivel():
     
     def __init__(self,nivel,columnas_nivel,filas_nivel) -> None:
         
-        self.lista_ostaculos = []
+        self.lista_solidos = []
+        self.lista_trampas = []
+        self.lista_lava = []
         self.columnas = columnas_nivel
         self.filas = filas_nivel
         self.nivel = nivel
@@ -71,20 +73,31 @@ class Nivel():
 
                             #enemigo
                             pass
+                        
+                        elif columna in LISTA_TRAMPAS:
+
+                            bloque = Plataforma(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,tamaño=TAM_BLOQUE,path=BLOQUES,image_indec=columna,columnas=24,filas=12)
+
+                            self.lista_trampas.append(bloque)
+
+
                         else:
+
 
                             bloque = Plataforma(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,tamaño=TAM_BLOQUE,path=BLOQUES,image_indec=columna,columnas=24,filas=12)
 
 
-                            self.lista_ostaculos.append(bloque)
+                            self.lista_solidos.append(bloque)
 
                         pass
                     
             
     def draw(self,screen):
         
-        for bloque in self.lista_ostaculos:
+        for bloque in self.lista_solidos:
 
             bloque.draw(screen)
 
-            
+        for bloque in self.lista_trampas:
+
+            bloque.draw(screen)

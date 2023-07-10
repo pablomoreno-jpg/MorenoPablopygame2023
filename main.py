@@ -24,16 +24,16 @@ fondo = pygame.transform.scale(fondo,(ANCHO_VENTANA,ALTO_VENTANA))
 
 items_group = pygame.sprite.Group()
 
-items = Items(200,400,"escudo")
+items = Items(200,400,"plasma")
 
 items_group.add(items)
 
-nivel = Nivel(NIVELES[0]["prueba"],columnas_nivel=32,filas_nivel=22)
+nivel = Nivel(NIVELES[0]["prueba"],columnas_nivel=33,filas_nivel=22)
 
 nivel.prosesar_data()
 
-player = Jugador(x=10, y=10, velocidad=6,framerate_animacion= 200, framerate_moviemiento= 18)
-enemigo = Enemigo(x=20, y =20,velocidad=4,framerate_animacion= 200, framerate_moviemiento= 18,tipo_enemigo="soldado 2")
+player = Jugador(x=40, y=10, velocidad=6,framerate_animacion= 200, framerate_moviemiento= 18)
+enemigo = Enemigo(x=100, y =60,velocidad=4,framerate_animacion= 200, framerate_moviemiento= 18,tipo_enemigo="soldado 2")
 
 
 flag_pausa = False
@@ -54,7 +54,7 @@ while corriendo:
                 
                 flag_pausa = True
             
-        player.control_vertical(nivel.lista_ostaculos,evento)
+        player.control_vertical(nivel.lista_solidos,evento,nivel.lista_trampas)
 
 
     
@@ -67,12 +67,12 @@ while corriendo:
 
         delta_ms = clock.tick(FPS)
         nivel.draw(screen)
-        player.control_horizontal(nivel.lista_ostaculos)
-        # enemigo.colicion_horizontal(nivel.lista_ostaculos)
+        player.control_horizontal(nivel.lista_solidos,nivel.lista_trampas)
         player.update(delta_ms)
         player.draw(screen)
         # enemigo.draw(screen)
-        enemigo.update(delta_ms)
+        # enemigo.ia_movimientos(nivel.lista_solidos)
+        # enemigo.update(delta_ms)
         items_group.update(player)
         items_group.draw(screen)
         

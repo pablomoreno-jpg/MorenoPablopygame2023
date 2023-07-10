@@ -46,7 +46,7 @@ class Plataforma(Objeto):
         self.pos_x = tamaño * columnas
         self.pos_y = tamaño * filas
         self.imagen.blit(imagen, (0, 0))
-        self.mask = pygame.mask.from_surface(self.imagen)
+        # self.mask = pygame.mask.from_surface(self.imagen)
         self.path = path
 
         

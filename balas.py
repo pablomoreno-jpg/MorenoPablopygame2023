@@ -39,12 +39,6 @@ class Bala(pygame.sprite.Sprite):
 
                 self.speed = 17
 
-            case "rocket":
-                
-                imagen = Auxliar.load_sprisheet(r"{0}\bullet.png".format(PAHT_PROYECTILES),columnas=1,filas=3)[1]
-
-                self.speed = 5
-
 
         return imagen
 
