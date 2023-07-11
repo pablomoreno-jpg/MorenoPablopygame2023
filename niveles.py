@@ -82,7 +82,6 @@ class Nivel():
                             enemigo_random = random.choice(LISTA_ENEMIOS)
                             enemigo = Enemigo(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,velocidad=4,framerate_animacion= 200, framerate_moviemiento= 18,tipo_enemigo= enemigo_random)
                             
-                            print(x,y)
                             self.enemy_group.add(enemigo)
 
                         elif bloque in LISTA_TRAMPAS:
@@ -127,7 +126,7 @@ class Nivel():
                         enemigo_random = random.choice(LISTA_ENEMIOS)
                         enemigo = Enemigo(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,velocidad=4,framerate_animacion= 200, framerate_moviemiento= 18,tipo_enemigo= enemigo_random)
                         
-                        print(x,y)
+
                         self.enemy_group.add(enemigo)
 
 

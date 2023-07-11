@@ -12,23 +12,28 @@ class Main_menu():
         self.rect_titulo.centerx = ANCHO_VENTANA / 2
         self.rect_titulo.y = 50
         self.salir = salir
-        self.boton_comenzar = Boton(ANCHO_VENTANA / 2,self.rect_titulo.centery + 200,"comenzar")
-        self.boton_opcines = Boton(ANCHO_VENTANA / 2,self.boton_comenzar.rect.centery + 100,"opciones")
-        self.boton_salir = Boton(ANCHO_VENTANA / 2,self.boton_opcines.rect.centery + 100,"salir")
+        self.boton_comenzar = Boton(ANCHO_VENTANA / 2,self.rect_titulo.centery + 200,"comenzar",centrarx=True)
+        self.boton_opcines = Boton(ANCHO_VENTANA / 2,self.boton_comenzar.rect.centery + 100,"opciones",centrarx= True)
+        self.boton_salir = Boton(ANCHO_VENTANA / 2,self.boton_opcines.rect.centery + 100,"salir",centrarx= True)
 
 
     def update(self,screen):
 
+        comenzar = False
+
         if self.boton_comenzar.draw(screen):
-            print("comenzar")
+            comenzar = True
 
         if self.boton_opcines.draw(screen):
             print("opciones")
 
         if self.boton_salir.draw(screen):   
-            self.salir = False
+            self.salir = True
 
-    def draw(self,screen):
+        return comenzar
+        
+
+    def draw(self,screen) -> bool|bool:
 
         
         fondo = pygame.image.load(r"mis imagenes\extras\fondo pausa.png")
@@ -36,12 +41,11 @@ class Main_menu():
 
         screen.blit(fondo,fondo.get_rect())
 
-        self.update(screen)
+        comenzar = self.update(screen)
 
         screen.blit(self.titulo,self.rect_titulo)
 
-
-
+        return comenzar,self.salir
 
 
 class Pausa():

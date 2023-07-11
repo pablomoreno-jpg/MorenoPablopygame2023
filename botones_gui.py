@@ -10,13 +10,25 @@ IMGAENES_BOTONES = {"comenzar":pygame.image.load(r"mis imagenes\extras\main menu
 
 
 class Boton():
-    def __init__(self,x,y,nombre_boton) -> None:
+    def __init__(self,x,y,nombre_boton,centrarx = False) -> None:
         
+
         self.imagen = IMGAENES_BOTONES[nombre_boton]
         self.rect = self.imagen.get_rect()
-        self.rect.x= x
+        self.centrarx = centrarx
+        self.rect.x= x - self.centrar_x()
         self.rect.y = y 
         self.click = False
+
+    def centrar_x(self):
+
+        ancho = 0
+
+        if self.centrarx:
+
+            ancho = self.imagen.get_width() / 2
+
+        return ancho
 
     def draw(self,screen):
         

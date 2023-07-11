@@ -16,8 +16,8 @@ pygame.init()
 clock = pygame.time.Clock()
 
 
-# fuente = pygame.font.Font(PAHT_FONT,100)
-# texto = fuente.render("hola",0,ROJO)
+fuente = pygame.font.Font(PAHT_FONT,50)
+texto = fuente.render("no  hay juego",0,ROJO)
 
 
 pygame.display.set_caption("doom's gate")
@@ -32,24 +32,69 @@ items = Items(200,400,"plasma")
 
 items_group.add(items)
 
-nivel = Nivel(NIVEL_02,columnas_nivel=33,filas_nivel=22)
+# nivel = Nivel(NIVELES["nivel 2"],columnas_nivel=33,filas_nivel=22)
 
-player = nivel.prosesar_data()
+# player = nivel.prosesar_data()
 
-# player = Jugador(x=40, y=10, velocidad=6,framerate_animacion= 200, framerate_moviemiento= 18)
-# enemigo1 = Enemigo(x=500, y =60,velocidad=4,framerate_animacion= 200, framerate_moviemiento= 18,tipo_enemigo="soldado 1")
-# enemigo = Enemigo(x=500, y =60,velocidad=4,framerate_animacion= 200, framerate_moviemiento= 18,tipo_enemigo="super demonio")
-
-# enemy_grupe.add(enemigo)
-# enemy_grupe.add(enemigo1)
 
 flag_pausa = False
+flag_comenzar_juego = False
 corriendo = True
 
 pausa = Pausa(corriendo)
+menu_principal = Main_menu(corriendo)
 
 while corriendo:
 
+    delta_ms = clock.tick(FPS)
+
+    # for evento in pygame.event.get():
+    #     if evento.type == pygame.QUIT:
+    #         pygame.quit()
+    #         sys.exit()    
+
+    #     if evento.type == pygame.KEYDOWN:
+
+    #         if evento.key == pygame.K_ESCAPE:
+                
+    #             flag_pausa = True
+            
+    #     player.control_vertical(nivel.lista_solidos,evento,nivel.lista_trampas)
+
+
+    if flag_comenzar_juego == False:
+
+       flag_comenzar_juego, corriendo = menu_principal.draw(screen)
+       pygame.display.flip()
+
+       nivel = Nivel(NIVELES["nivel 2"], columnas_nivel=33, filas_nivel=22)
+
+       player = nivel.prosesar_data()
+
+    else:
+        if flag_pausa:
+
+            flag_pausa,corriendo = pausa.draw(screen)
+
+
+        else:
+
+
+            nivel.draw(screen)
+            player.control_horizontal(nivel.lista_solidos,nivel.lista_trampas)
+            player.update(delta_ms)
+            player.draw(screen)
+
+
+            for item in nivel.item_group:
+
+                item.update(player)
+                item.draw(screen)
+            
+        # screen.blit(texto,(ANCHO_VENTANA/2 - 200,100))
+        pygame.display.flip()
+        screen.blit(fondo,fondo.get_rect())
+                                
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             pygame.quit()
@@ -62,29 +107,3 @@ while corriendo:
                 flag_pausa = True
             
         player.control_vertical(nivel.lista_solidos,evento,nivel.lista_trampas)
-
-
-    
-    if flag_pausa:
-
-        flag_pausa,corriendo = pausa.draw(screen)
-
-
-    else:
-
-        delta_ms = clock.tick(FPS)
-        nivel.draw(screen)
-        player.control_horizontal(nivel.lista_solidos,nivel.lista_trampas)
-        player.update(delta_ms)
-        player.draw(screen)
-
-
-        for item in nivel.item_group:
-
-            item.update(player)
-            item.draw(screen)
-        
-    # screen.blit(texto,(ANCHO_VENTANA/2 - 200,100))
-    pygame.display.flip()
-    screen.blit(fondo,fondo.get_rect())
-                            
