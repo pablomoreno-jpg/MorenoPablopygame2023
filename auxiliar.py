@@ -30,3 +30,12 @@ class Auxliar:
 
 
         return lista
+    
+
+    @staticmethod
+    def elegir_background(nombre_nivel):
+
+        fondo = pygame.image.load(FONDOS_NIVLES[nombre_nivel])
+        fondo = pygame.transform.scale(fondo,(ANCHO_VENTANA,ALTO_VENTANA))
+
+        return fondo

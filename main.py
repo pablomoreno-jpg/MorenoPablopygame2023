@@ -22,8 +22,11 @@ texto = fuente.render("no  hay juego",0,ROJO)
 
 pygame.display.set_caption("doom's gate")
 
-fondo = pygame.image.load(r"{0}\locations\forest\all.png".format(PHAT_RECURSOS))
-fondo = pygame.transform.scale(fondo,(ANCHO_VENTANA,ALTO_VENTANA))
+# fondo = pygame.image.load(r"{0}\locations\forest\all.png".format(PHAT_RECURSOS))
+# fondo = pygame.transform.scale(fondo,(ANCHO_VENTANA,ALTO_VENTANA))
+
+#fondos
+fondo = Auxliar.elegir_background("prueba")
 
 enemy_grupe = pygame.sprite.Group()
 items_group = pygame.sprite.Group()
@@ -67,6 +70,7 @@ while corriendo:
         
         if flag_nivel_cargado:
 
+            fondo = Auxliar.elegir_background(elegir_niveles.nombre_nivel)
             nivel = Nivel(NIVELES[elegir_niveles.nombre_nivel], columnas_nivel=33, filas_nivel=22)
             player = nivel.prosesar_data()
 
