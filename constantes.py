@@ -18,7 +18,7 @@ DIRECCION_L = 1
 GRAVEDAD = 1  
 
 TAM_BLOQUE = 32
-LISTA_TRAMPAS = [59,19,20,44,68,67,91]
+LISTA_TRAMPAS = [59,19,20,44,68,67,91,126]
 ITEM = 12
 JUGADOR = 6
 ENEMIGO = 7
@@ -26,8 +26,12 @@ ENEMIGO = 7
 
 BLOQUES = r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\mis imagenes\locations\bloques\bloques.png"
 
-NIVELES = [{"prueba":r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\niveles\prueba.csv"},
-           {"nivel_01":r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\niveles\nivel_01.csv"}]
+NIVEL_PRUEBA = r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\niveles\prueba.csv"
+NIVEL_01 = r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\niveles\nivel_01.csv"
+NIVEL_02 = r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\niveles\nivel_02.csv"
+NIVEL_03 = r""
+NIVEL_04 = r""
+NIVEL_05 = r""
 
 
 ROJO = (255,0,0)

@@ -27,11 +27,10 @@ def leer_csv(nombre:str,columnas,filas)-> list:
         
         leer = csv.reader(archivo, delimiter=';')
 
-        
-
         for x, linea in enumerate(leer):
 
             for y, num_bloque in enumerate(linea): 
+
 
                 archivo_leido[x][y] = int(num_bloque)
 
@@ -49,6 +48,8 @@ class Nivel():
         self.columnas = columnas_nivel
         self.filas = filas_nivel
         self.nivel = nivel
+        self.jugador_cargador = False
+        self.bloques_cargados = False
     
 
     def prosesar_data(self):
@@ -58,22 +59,25 @@ class Nivel():
 
         for y, fila, in enumerate(data):
             
-            for x, columna in enumerate(fila):
+            for x, bloque in enumerate(fila):
 
-                if columna >= 0 and columna < 288 and type(columna) == int:
+                if bloque >= 0 and bloque < 288:
                         
-                        if columna == JUGADOR:
+                        if bloque == JUGADOR :
 
-                            jugador = Jugador(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE, velocidad=6,framerate_animacion= 200, framerate_moviemiento= 18)
+                            if self.jugador_cargador == False:
 
-                        elif columna == ITEM:
+                                self.jugador_cargador = True
+                                jugador = Jugador(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE, velocidad=6,framerate_animacion= 200, framerate_moviemiento= 18)
+
+                        elif bloque == ITEM:
 
                             item_random = random.choice(LISTA_ITEMS)
                             item = Items(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,item_tipo=item_random)
 
                             self.item_group.add(item)
 
-                        elif columna == ENEMIGO:
+                        elif bloque == ENEMIGO:
                             
                             enemigo_random = random.choice(LISTA_ENEMIOS)
                             enemigo = Enemigo(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,velocidad=4,framerate_animacion= 200, framerate_moviemiento= 18,tipo_enemigo= enemigo_random)
@@ -81,24 +85,53 @@ class Nivel():
                             print(x,y)
                             self.enemy_group.add(enemigo)
 
-                        elif columna in LISTA_TRAMPAS:
-
-                            bloque = Plataforma(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,tamaño=TAM_BLOQUE,path=BLOQUES,image_indec=columna,columnas=24,filas=12)
+                        elif bloque in LISTA_TRAMPAS:
                             
 
-                            self.lista_trampas.append(bloque)
+                                bloque = Plataforma(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,tamaño=TAM_BLOQUE,path=BLOQUES,image_indec=bloque,columnas=24,filas=12)
+                                
+
+                                self.lista_trampas.append(bloque)
 
 
                         else:
 
-                            bloque = Plataforma(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,tamaño=TAM_BLOQUE,path=BLOQUES,image_indec=columna,columnas=24,filas=12)
+
+                            bloque = Plataforma(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,tamaño=TAM_BLOQUE,path=BLOQUES,image_indec=bloque,columnas=24,filas=12)
 
                             self.lista_solidos.append(bloque)
 
                         pass
                     
         return jugador
-            
+
+    def volver_a_cargar_items_o_enemigos(self):
+
+        data = leer_csv(self.nivel,self.columnas,self.filas)
+
+        for y, fila, in enumerate(data):
+        
+            for x, bloque in enumerate(fila):
+
+                if bloque >= 0 and bloque < 288:
+
+                    if bloque == ITEM:
+
+                        item_random = random.choice(LISTA_ITEMS)
+                        item = Items(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,item_tipo=item_random)
+
+                        self.item_group.add(item)
+
+                    elif bloque == ENEMIGO:
+                        
+                        enemigo_random = random.choice(LISTA_ENEMIOS)
+                        enemigo = Enemigo(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,velocidad=4,framerate_animacion= 200, framerate_moviemiento= 18,tipo_enemigo= enemigo_random)
+                        
+                        print(x,y)
+                        self.enemy_group.add(enemigo)
+
+
+
     def draw(self,screen):
         
         for bloque in self.lista_solidos:

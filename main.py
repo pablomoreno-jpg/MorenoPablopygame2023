@@ -32,7 +32,7 @@ items = Items(200,400,"plasma")
 
 items_group.add(items)
 
-nivel = Nivel(NIVELES[1]["nivel_01"],columnas_nivel=33,filas_nivel=22)
+nivel = Nivel(NIVEL_02,columnas_nivel=33,filas_nivel=22)
 
 player = nivel.prosesar_data()
 
