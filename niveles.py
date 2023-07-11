@@ -1,6 +1,6 @@
 import pygame
 import csv
-import re
+import random
 from constantes import*
 from jugador import*
 from plataforma import*
@@ -8,6 +8,9 @@ from enemigos import*
 from auxiliar import*
 from items import*
 
+
+LISTA_ENEMIOS = ["imp","soldado 1","soldado 2","super demonio"]
+LISTA_ITEMS = ["escudo","escudo pequeño","escudo","plasma"]
 
 def leer_csv(nombre:str,columnas,filas)-> list:
 
@@ -41,10 +44,8 @@ class Nivel():
         
         self.lista_solidos = []
         self.lista_trampas = []
-        self.lista_pos_item_x = []
-        self.lista_pos_item_y= []
-        self.lista_pos_enemigos_x = []
-        self.lista_pos_enemigos_y = []
+        self.item_group = pygame.sprite.Group()
+        self.enemy_group = pygame.sprite.Group()
         self.columnas = columnas_nivel
         self.filas = filas_nivel
         self.nivel = nivel
@@ -52,6 +53,7 @@ class Nivel():
 
     def prosesar_data(self):
         
+        jugador = None
         data = leer_csv(self.nivel,self.columnas,self.filas)
 
         for y, fila, in enumerate(data):
@@ -62,38 +64,40 @@ class Nivel():
                         
                         if columna == JUGADOR:
 
-                            jugador = Jugador(x,y, velocidad=6,framerate_animacion= 200, framerate_moviemiento= 18)
+                            jugador = Jugador(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE, velocidad=6,framerate_animacion= 200, framerate_moviemiento= 18)
 
                         elif columna == ITEM:
-                            
-                            self.lista_pos_item_x.append(x)
-                            self.lista_pos_item_y.append(y)
 
-                        
+                            item_random = random.choice(LISTA_ITEMS)
+                            item = Items(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,item_tipo=item_random)
+
+                            self.item_group.add(item)
+
                         elif columna == ENEMIGO:
-
-                            self.lista_pos_enemigos_x.append(x)
-                            self.lista_pos_enemigos_y.append(y)
-
+                            
+                            enemigo_random = random.choice(LISTA_ENEMIOS)
+                            enemigo = Enemigo(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,velocidad=4,framerate_animacion= 200, framerate_moviemiento= 18,tipo_enemigo= enemigo_random)
+                            
+                            print(x,y)
+                            self.enemy_group.add(enemigo)
 
                         elif columna in LISTA_TRAMPAS:
 
                             bloque = Plataforma(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,tamaño=TAM_BLOQUE,path=BLOQUES,image_indec=columna,columnas=24,filas=12)
+                            
 
                             self.lista_trampas.append(bloque)
 
 
                         else:
 
-
                             bloque = Plataforma(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,tamaño=TAM_BLOQUE,path=BLOQUES,image_indec=columna,columnas=24,filas=12)
-
 
                             self.lista_solidos.append(bloque)
 
                         pass
                     
-                return jugador
+        return jugador
             
     def draw(self,screen):
         

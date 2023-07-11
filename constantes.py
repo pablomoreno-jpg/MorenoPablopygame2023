@@ -6,6 +6,7 @@ FPS = 60
 
 DEBUG = False
 
+PAHT_FONT = r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\mis imagenes\extras\DooM Regular.ttf"
 PHAT_RECURSOS =  r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\mis imagenes"
 PAHT_ENEMIGOS = r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\mis imagenes\characters\enemigos"
 PAHT_PROYECTILES= r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\mis imagenes\proyectiles"

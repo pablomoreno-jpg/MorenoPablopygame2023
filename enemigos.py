@@ -56,7 +56,7 @@ class Enemigo(pygame.sprite.Sprite):
 
     def __init__(self,x,y,velocidad,framerate_animacion,framerate_moviemiento,tipo_enemigo) -> None:
 
-        super().__init__()
+        pygame.sprite.Sprite.__init__(self)
         self.direccion = DIRECCION_R
         self.tipo_enemigo = tipo_enemigo
         self.arma = SPRITS_ENEMIGOS_R[tipo_enemigo]["arma"]
@@ -71,11 +71,11 @@ class Enemigo(pygame.sprite.Sprite):
         self.cooldown_dispario = 0
         self.cooldown_maximo = 15
         self.animacion = SPRITS_ENEMIGOS_R[tipo_enemigo]["idel"]
-        self.imagen = self.animacion[self.frame]
-        self.mask = self.mask = pygame.mask.from_surface(self.imagen)
-        self.rect = self.imagen.get_rect()
-        self.ancho = self.imagen.get_width()
-        self.alto = self.imagen.get_height()
+        self.image = self.animacion[self.frame]
+        self.mask = self.mask = pygame.mask.from_surface(self.image)
+        self.rect = self.image.get_rect()
+        self.ancho = self.image.get_width()
+        self.alto = self.image.get_height()
         self.rect.x = x
         self.rect.y = y
         self.tiempo_trasncurrio_moviento = 0
@@ -84,16 +84,16 @@ class Enemigo(pygame.sprite.Sprite):
         self.frame_rate_movimiento = framerate_moviemiento
         self.disparando = False
         self.grupo_balas = pygame.sprite.Group()
-        
+
         self.contador_movimieno = 0
-        self.rect_vision_r = pygame.Rect(self.rect.x + 75,0,250,100)
-        self.rect_vision_l = pygame.Rect(-self.rect.x,0,250,100)
+        self.rect_vision = pygame.Rect(0,0,300,100)
+        self.rect_vision.center = (self.rect.centerx + 75, self.rect.centery)
 
 
     def caminar_ia(self,player,):
 
         if self.vivo and player.vivo:
-            
+
             if self.direccion == DIRECCION_R:
 
                 self.animacion = SPRITS_ENEMIGOS_R[self.tipo_enemigo]["walk"]
@@ -114,7 +114,7 @@ class Enemigo(pygame.sprite.Sprite):
 
 
             pass
-          
+
     def disparar(self):
 
         if self.direccion == DIRECCION_R:
@@ -122,7 +122,7 @@ class Enemigo(pygame.sprite.Sprite):
             self.animacion = SPRITS_ENEMIGOS_R[self.tipo_enemigo]["shoot"]
 
         else:
-            
+
             self.animacion = SPRITS_ENEMIGOS_L[self.tipo_enemigo]["shoot"]
 
         self.frame = 0
@@ -134,21 +134,21 @@ class Enemigo(pygame.sprite.Sprite):
         # if self.animacion != SPRITS_JUGADOR_R[self.arma]["idel"] and self.animacion != SPRITS_JUGADOR_L[self.arma]["idel"]:
 
             if self.direccion == DIRECCION_R:
-                
-                self.imagen = SPRITS_ENEMIGOS_R[self.tipo_enemigo]["idel"]
+
+                self.image = SPRITS_ENEMIGOS_R[self.tipo_enemigo]["idel"]
 
             else:
-                
-                self.imagen = SPRITS_ENEMIGOS_L[self.tipo_enemigo]["idel"]
 
-            
+                self.image = SPRITS_ENEMIGOS_L[self.tipo_enemigo]["idel"]
+
+
 
             self.mover_x = 0
             self.mover_y = 0
             self.frame = 0
 
     def landed(self):
-        
+
         self.mover_y = 0
         self.contador_caida = 0
         self.contador_salto = 0
@@ -163,7 +163,7 @@ class Enemigo(pygame.sprite.Sprite):
         for obj in objetos:
 
             if obj.rect.colliderect(self.rect.x,self.rect.y + self.mover_y,self.ancho,self.alto):
-                    
+
                     if desplazamineto_y >= 0:
 
                         self.rect.bottom = obj.rect.top
@@ -184,30 +184,19 @@ class Enemigo(pygame.sprite.Sprite):
 
                         self.quieto()
                     elif self.rect.x  >= -obj.rect.x + 6:
-                        
+
                         self.quieto()
 
-    def vision_r(self,player):
+    def vision(self,player):
 
-        if self.rect_vision_r.colliderect(player.rect.x,player.rect.y,player.ancho,player.alto) and self.direccion == DIRECCION_R:
-            
+        if self.rect_vision.colliderect(player.rect.x,player.rect.y,player.ancho,player.alto):
+
             self.disparar()
-            return True
+            self.disparando = True
 
         else:
 
-            return False
-
-    def vision_l(self,player):
-
-        if self.rect_vision_l.colliderect(player.rect.x,player.rect.y,player.ancho,player.alto) and self.direccion == DIRECCION_L:
-
-            self.disparar()
-            return True
-
-        else:
-
-           return False
+            self.disparando =  False
 
     def daño(self,cantidad_daño):
 
@@ -232,14 +221,14 @@ class Enemigo(pygame.sprite.Sprite):
             distancia = random.choice(lista_distancia)
 
             if self.direccion == DIRECCION_L:
-
+                self.rect_vision.center = (self.rect.centerx + 75, self.rect.centery)
                 self.direccion = DIRECCION_R
             else:
-
+                self.rect_vision.center = (self.rect.centerx + 75 * -1, self.rect.centery)
                 self.direccion = DIRECCION_L
-            
+
             self.contador_movimieno = 0
-        
+
         self.colicion_horizontal(objetos)
         self.colicion_vertical(objetos,self.mover_y)
 
@@ -249,11 +238,9 @@ class Enemigo(pygame.sprite.Sprite):
 
         self.grupo_balas.update(self)
 
-    def do_moviento(self,delta_ms,player):
-
+    def do_moviento(self,delta_ms,player,objetos):
 
         self.mover_y += min(1, (self.contador_caida / FPS) * GRAVEDAD)
-
 
         self.tiempo_trasncurrio_moviento += delta_ms
 
@@ -261,21 +248,12 @@ class Enemigo(pygame.sprite.Sprite):
 
             self.update_bala()
 
-            # self.vision_r(player)
-            # self.vision_l(player)
+            self.ia(objetos,player)
 
-            if self.vision_r(player) or self.vision_l(player):
-
-                self.disparando = True
-
-            else:
-
-                self.disparando = False
-
+            self.vision(player)
 
             self.add_x(self.mover_x)
             self.add_y(self.mover_y)
-
 
             self.tiempo_trasncurrio_moviento = 0
 
@@ -286,25 +264,25 @@ class Enemigo(pygame.sprite.Sprite):
         if self.disparando and self.cooldown_dispario == 0:
 
             if self.direccion == 0:
-                
+
                 self.grupo_balas.add(Bala(self.rect.centerx + self.rect.size[0]/2,self.rect.centery,self.direccion,self.arma))
-            
+
             else:
 
 
                 self.grupo_balas.add(Bala(self.rect.centerx - self.rect.size[0]/2,self.rect.centery,self.direccion,self.arma))
 
-            
+
             self.cooldown_dispario = self.cooldown_maximo
 
-    
+
         elif self.cooldown_dispario > 0:
 
             self.cooldown_dispario -= 1
 
 
         pass
-    
+
     def ia_movimientos(self,objetos):
 
         if self.direccion == DIRECCION_R and self.mover_x > self.ancho*2:
@@ -316,26 +294,19 @@ class Enemigo(pygame.sprite.Sprite):
 
             self.mover_x = -self.speed
 
-        
-        
-        
         self.colicion_horizontal(objetos)
         self.colicion_vertical(objetos,self.mover_y)
 
     def add_x(self,delta_x):
 
         self.rect.x += delta_x
-        self.rect_vision_r.x += delta_x
-        self.rect_vision_l.x += delta_x
+        self.rect_vision.x += delta_x
         pass
-    
+
     def add_y(self,delta_y):
 
         self.rect.y += delta_y
-        self.rect_vision_r.y = self.rect.y
-        self.rect_vision_l.y = self.rect.y
-
-
+        self.rect_vision.y = self.rect.y
 
     def do_animacion(self,delta_ms):
         self.tiempo_trasncurrio_animacion += delta_ms
@@ -349,7 +320,7 @@ class Enemigo(pygame.sprite.Sprite):
             self.tiempo_trasncurrio_animacion = 0
 
             if self.frame < (len(self.animacion) -1):
-                
+
 
                 self.frame += 1
 
@@ -357,28 +328,24 @@ class Enemigo(pygame.sprite.Sprite):
 
                 self.frame = 0
 
-        
+
         if self.cooldown_dispario > 0:
             self.cooldown_dispario -= 1
 
-    def update(self,delta_ms,player):
-
-        self.do_moviento(delta_ms,player)
+    def update(self,delta_ms,player,objetos):
+        self.do_moviento(delta_ms,player,objetos)
         self.do_animacion(delta_ms)
-
-            
-        print(self.disparando)
 
     def draw(self,screen):
 
-        
+
         if DEBUG:
 
             pygame.draw.rect(screen,ROJO,self.rect)
-            pygame.draw.rect(screen,VERDE,self.rect_vision_r)
-            pygame.draw.rect(screen,VERDE,self.rect_vision_l)
+            pygame.draw.rect(screen,VERDE,self.rect_vision)
+
 
         self.balas(screen)
-        self.imagen = self.animacion[self.frame]
-        screen.blit(self.imagen,self.rect)
+        self.image = self.animacion[self.frame]
+        screen.blit(self.image,self.rect)
 

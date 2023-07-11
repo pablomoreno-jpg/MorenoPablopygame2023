@@ -69,3 +69,9 @@ class Items(pygame.sprite.Sprite):
                 player.cooldown_maximo = 3
         
             self.kill()
+
+    def draw(self,screen):
+
+        screen.blit(self.image,self.rect)
+
+        pass

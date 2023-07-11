@@ -23,13 +23,13 @@ class Bala(pygame.sprite.Sprite):
                 
                 imagen = Auxliar.load_sprisheet(r"{0}\bullet.png".format(PAHT_PROYECTILES),columnas=2,filas=2)[0]
 
+                imagen = pygame.transform.scale2x(imagen)
+
                 self.speed = 12
 
             case "escopeta":
                 
                 imagen = Auxliar.load_sprisheet(r"{0}\bullet.png".format(PAHT_PROYECTILES),columnas=2,filas=2)[1]
-
-                imagen = pygame.transform.scale2x(imagen)
 
                 self.speed = 8
 
