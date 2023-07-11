@@ -50,7 +50,6 @@ class Jugador(pygame.sprite.Sprite):
         self.cooldown_maximo = 15
         self.animacion = SPRITS_JUGADOR_R[self.arma]["idel"]
         self.imagen = self.animacion[self.frame]
-        # self.mask = self.mask = pygame.mask.from_surface(self.imagen)
         self.rect = self.imagen.get_rect()
         self.ancho = self.imagen.get_width()
         self.alto = self.imagen.get_height()
@@ -63,7 +62,6 @@ class Jugador(pygame.sprite.Sprite):
         self.frame_rate_movimiento = framerate_moviemiento
         self.disparando = False
         self.salto = False
-        # self.aterrisaje = False
         self.grupo_balas = pygame.sprite.Group()
         self.salud_escudo = BarraSalud(x=10,y=40,barra_salud=self.salud,salud_maxima=self.salud_maxima,escudo=self.escudo,escudo_maximo=self.escudo_maximo)
         
@@ -186,7 +184,7 @@ class Jugador(pygame.sprite.Sprite):
 
     def landed(self,rect):
         
-        self.mover_y = rect - self.rect.bottom
+        self.mover_y = 0
         self.contador_caida = 0
         self.contador_salto = 0
 
@@ -196,7 +194,6 @@ class Jugador(pygame.sprite.Sprite):
 
     def colicion_vertical(self,objetos:list[Objeto],desplazamineto_y):
 
-        coleccion_objetos = []
 
         for obj in objetos:
 
@@ -207,7 +204,10 @@ class Jugador(pygame.sprite.Sprite):
                         self.rect.bottom = obj.rect.top
                         self.landed(obj.rect.top)
 
-        return coleccion_objetos
+                    elif desplazamineto_y < 0:
+
+                        self.rect.top == obj.rect.bottom
+                        self.hit_head()
 
     def colicion_horizontal(self,objetos,):
 
@@ -220,7 +220,7 @@ class Jugador(pygame.sprite.Sprite):
 
                         self.quieto()
 
-                    elif (self.rect.x + 30) >= -obj.rect.x + 6:
+                    elif self.rect.x  >= -obj.rect.x + 6:
                         
                         self.quieto()
 

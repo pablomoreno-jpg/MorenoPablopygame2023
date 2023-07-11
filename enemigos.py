@@ -1,34 +1,39 @@
 import pygame
+import random
 from constantes import *
 from auxiliar import*
 from plataforma import*
 from balas import*
 
 
-SPRITS_ENEMIGOS_L = {"imp": {"walk": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[0:2],
+SPRITS_ENEMIGOS_R = {"imp": {"walk": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[0:3],
                              "idel": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[1:2],
-                             "shoot": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[3:5],
-                             "damege": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[6:8]},
+                             "shoot": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[4:6],
+                             "damege": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[6:8],
+                             "arma": "plasma"},
 
                      "soldado 1": {"walk": Auxliar.load_sprisheet(r"{}\soldado 1.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[0:4],
                                    "idel": Auxliar.load_sprisheet(r"{}\soldado 1.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[1:2],
                                    "shoot": Auxliar.load_sprisheet(r"{}\soldado 1.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[5:6],
-                                   "damege": Auxliar.load_sprisheet(r"{}\soldado 1.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[7:8]},
+                                   "damege": Auxliar.load_sprisheet(r"{}\soldado 1.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[7:8],
+                                   "arma": "escopeta"},
 
                      "soldado 2": {"walk": Auxliar.load_sprisheet(r"{}\soldado 2.png".format(PAHT_ENEMIGOS), columnas=4, filas=4, direcciones=True)[0:5],
                                    "idel": Auxliar.load_sprisheet(r"{}\soldado 2.png".format(PAHT_ENEMIGOS), columnas=4, filas=4, direcciones=True)[11:13],
                                    "shoot": Auxliar.load_sprisheet(r"{}\soldado 2.png".format(PAHT_ENEMIGOS), columnas=4, filas=4, direcciones=True)[6:7],
-                                   "damege": Auxliar.load_sprisheet(r"{}\soldado 2.png".format(PAHT_ENEMIGOS), columnas=4, filas=4, direcciones=True)[8:10]},
+                                   "damege": Auxliar.load_sprisheet(r"{}\soldado 2.png".format(PAHT_ENEMIGOS), columnas=4, filas=4, direcciones=True)[8:10],
+                                   "arma": "default"},
 
                      "super demonio": {"walk": Auxliar.load_sprisheet(r"{}\super demonio.png".format(PAHT_ENEMIGOS), columnas=4, filas=3, direcciones=True)[0:3],
                                        "idel": Auxliar.load_sprisheet(r"{}\super demonio.png".format(PAHT_ENEMIGOS), columnas=4, filas=3, direcciones=True)[9:11],
                                        "shoot": Auxliar.load_sprisheet(r"{}\super demonio.png".format(PAHT_ENEMIGOS), columnas=4, filas=3, direcciones=True)[4:5],
-                                       "damege": Auxliar.load_sprisheet(r"{}\super demonio.png".format(PAHT_ENEMIGOS), columnas=4, filas=3, direcciones=True)[6:8]}
+                                       "damege": Auxliar.load_sprisheet(r"{}\super demonio.png".format(PAHT_ENEMIGOS), columnas=4, filas=3, direcciones=True)[6:8],
+                                       "arma": "energia"},
                      }
 
-SPRITS_ENEMIGOS_R = {"imp": {"walk": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3,)[0:2],
+SPRITS_ENEMIGOS_L = {"imp": {"walk": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3,)[0:3],
                              "idel": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3)[1:2],
-                             "shoot": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3,)[3:5],
+                             "shoot": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3,)[4:6],
                              "damege": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3,)[6:8]},
 
                      "soldado 1": {"walk": Auxliar.load_sprisheet(r"{}\soldado 1.png".format(PAHT_ENEMIGOS), columnas=3, filas=3,)[0:3],
@@ -50,14 +55,14 @@ SPRITS_ENEMIGOS_R = {"imp": {"walk": Auxliar.load_sprisheet(r"{}\imp.png".format
 class Enemigo(pygame.sprite.Sprite):
 
     def __init__(self,x,y,velocidad,framerate_animacion,framerate_moviemiento,tipo_enemigo) -> None:
-        
+
         super().__init__()
         self.direccion = DIRECCION_R
         self.tipo_enemigo = tipo_enemigo
+        self.arma = SPRITS_ENEMIGOS_R[tipo_enemigo]["arma"]
         self.salud = 50
         self.salud_maxima = self.salud
         self.vivo = True
-        self.contador_salto = 0
         self.contador_caida = 0
         self.speed = velocidad
         self.frame = 0
@@ -78,44 +83,38 @@ class Enemigo(pygame.sprite.Sprite):
         self.frame_rate_animacion = framerate_animacion
         self.frame_rate_movimiento = framerate_moviemiento
         self.disparando = False
-        self.salto = False
         self.grupo_balas = pygame.sprite.Group()
         
         self.contador_movimieno = 0
+        self.rect_vision_r = pygame.Rect(self.rect.x + 75,0,250,100)
+        self.rect_vision_l = pygame.Rect(-self.rect.x,0,250,100)
 
 
-    def caminar_ia(self,direccion):
+    def caminar_ia(self,player,):
 
-        # if self.direccion != direccion or (self.animacion != self.caminar_r or self.animacion != self.caminar_l):
-
-        if self.vivo:
-
-            self.direccion = direccion
-        
-
-            if direccion == DIRECCION_R:
-
-                    self.mover_x = self.speed
-
-                    self.animacion = SPRITS_ENEMIGOS_R[self.tipo_enemigo]["walk"]
-                    
-            else:
-                    self.mover_x = -self.speed
-
-                    self.animacion = SPRITS_ENEMIGOS_L[self.tipo_enemigo]["walk"]
+        if self.vivo and player.vivo:
             
-            self.contador_movimieno += 1
+            if self.direccion == DIRECCION_R:
+
+                self.animacion = SPRITS_ENEMIGOS_R[self.tipo_enemigo]["walk"]
+                self.mover_x = self.speed
+
+            else:
+
+                self.animacion = SPRITS_ENEMIGOS_L[self.tipo_enemigo]["walk"]
+                self.mover_x = -self.speed
 
 
-            if self.contador_movimieno > TAM_BLOQUE:
 
-                self.mover_x *= -1
+            # self.rect_vision.center = (self.rect.centerx + 75 * direccion,self.rect.centery)
 
 
-            if self.frame > len(self.animacion) -1:
-
+            if self.frame > len(self.animacion)-1:
                 self.frame = 0
-   
+
+
+            pass
+          
     def disparar(self):
 
         if self.direccion == DIRECCION_R:
@@ -125,8 +124,6 @@ class Enemigo(pygame.sprite.Sprite):
         else:
             
             self.animacion = SPRITS_ENEMIGOS_L[self.tipo_enemigo]["shoot"]
-
-
 
         self.frame = 0
         self.mover_x = 0
@@ -150,9 +147,9 @@ class Enemigo(pygame.sprite.Sprite):
             self.mover_y = 0
             self.frame = 0
 
-    def landed(self,rect):
+    def landed(self):
         
-        self.mover_y = rect - self.rect.bottom
+        self.mover_y = 0
         self.contador_caida = 0
         self.contador_salto = 0
 
@@ -162,70 +159,97 @@ class Enemigo(pygame.sprite.Sprite):
 
     def colicion_vertical(self,objetos:list[Objeto],desplazamineto_y):
 
-        coleccion_objetos = []
 
         for obj in objetos:
 
-            # if pygame.sprite.collide_mask(self,obj):
             if obj.rect.colliderect(self.rect.x,self.rect.y + self.mover_y,self.ancho,self.alto):
-
-                if not self.salto:
                     
                     if desplazamineto_y >= 0:
 
                         self.rect.bottom = obj.rect.top
-                        self.landed(obj.rect.top)
-                        # self.aterrisaje = True
+                        self.landed()
 
-                else:
+                    elif desplazamineto_y < 0:
 
-                    if desplazamineto_y >= 0 and   self.rect.bottom >= obj.rect.top:
-
-                        self.landed(obj.rect.top)
-
-
-            # if obj.rect.colliderect(self.rect.x + self.mover_x,self.rect.y -0.1,self.ancho,self.alto):
-
-            #         if self.rect.x >= obj.rect.x +6:
-
-            #             self.mover_x = 0
-
-            #         elif (self.rect.x - 10)  >  - (obj.rect.x + 10):
-            #             print("va a tocar")
-                    
-            #             self.mover_x = 0
-                    
-
-
-            # else:
-
-            #     self.aterrisaje = False
-
-
-        return coleccion_objetos
+                        self.rect.top = obj.rect.bottom
+                        self.hit_head()
 
     def colicion_horizontal(self,objetos):
 
         for obj in objetos:
-
 
             if obj.rect.colliderect(self.rect.x + self.mover_x,self.rect.y -0.1,self.ancho,self.alto):
 
                     if self.rect.x >= obj.rect.x +6:
 
                         self.quieto()
-
-                    elif (self.rect.x + 30) >= -obj.rect.x + 6:
+                    elif self.rect.x  >= -obj.rect.x + 6:
                         
                         self.quieto()
-   
+
+    def vision_r(self,player):
+
+        if self.rect_vision_r.colliderect(player.rect.x,player.rect.y,player.ancho,player.alto) and self.direccion == DIRECCION_R:
+            
+            self.disparar()
+            return True
+
+        else:
+
+            return False
+
+    def vision_l(self,player):
+
+        if self.rect_vision_l.colliderect(player.rect.x,player.rect.y,player.ancho,player.alto) and self.direccion == DIRECCION_L:
+
+            self.disparar()
+            return True
+
+        else:
+
+           return False
+
+    def daño(self,cantidad_daño):
+
+        self.salud = - cantidad_daño
+
+        if self.salud == 0:
+
+            self.kill()
+
+    def ia(self,objetos,player):
+
+        lista_distancia = [TAM_BLOQUE*2,TAM_BLOQUE**2,TAM_BLOQUE*3,]
+
+        distancia = random.choice(lista_distancia)
+
+        self.caminar_ia(player)
+
+        self.contador_movimieno += 1
+
+        if self.contador_movimieno > distancia:
+
+            distancia = random.choice(lista_distancia)
+
+            if self.direccion == DIRECCION_L:
+
+                self.direccion = DIRECCION_R
+            else:
+
+                self.direccion = DIRECCION_L
+            
+            self.contador_movimieno = 0
+        
+        self.colicion_horizontal(objetos)
+        self.colicion_vertical(objetos,self.mover_y)
+
     def balas(self,screen):
 
         self.grupo_balas.draw(screen)
 
         self.grupo_balas.update(self)
 
-    def do_moviento(self,delta_ms):
+    def do_moviento(self,delta_ms,player):
 
 
         self.mover_y += min(1, (self.contador_caida / FPS) * GRAVEDAD)
@@ -237,9 +261,16 @@ class Enemigo(pygame.sprite.Sprite):
 
             self.update_bala()
 
-            if self.mover_y > 0:
+            # self.vision_r(player)
+            # self.vision_l(player)
 
-                self.salto = False
+            if self.vision_r(player) or self.vision_l(player):
+
+                self.disparando = True
+
+            else:
+
+                self.disparando = False
 
 
             self.add_x(self.mover_x)
@@ -252,16 +283,16 @@ class Enemigo(pygame.sprite.Sprite):
 
     def update_bala(self):
 
-        if self.disparando and self.frame == 1 and self.cooldown_dispario == 0:
-    
-            if self.direccion == DIRECCION_R:
-                
+        if self.disparando and self.cooldown_dispario == 0:
 
-                self.grupo_balas.add(Bala(self.rect.centerx + self.rect.size[0],self.rect.centery,self.direccion,self.arma))
+            if self.direccion == 0:
+                
+                self.grupo_balas.add(Bala(self.rect.centerx + self.rect.size[0]/2,self.rect.centery,self.direccion,self.arma))
             
             else:
-                
-                self.grupo_balas.add(Bala(self.rect.centerx - self.rect.size[0],self.rect.centery,self.direccion,self.arma))
+
+
+                self.grupo_balas.add(Bala(self.rect.centerx - self.rect.size[0]/2,self.rect.centery,self.direccion,self.arma))
 
             
             self.cooldown_dispario = self.cooldown_maximo
@@ -271,17 +302,20 @@ class Enemigo(pygame.sprite.Sprite):
 
             self.cooldown_dispario -= 1
 
+
         pass
     
     def ia_movimientos(self,objetos):
 
-        if self.direccion == DIRECCION_R and self.mover_x > TAM_BLOQUE:
+        if self.direccion == DIRECCION_R and self.mover_x > self.ancho*2:
 
-            self.mover_x += self.speed
+            self.mover_x = self.speed
 
-        elif self.mover_x < TAM_BLOQUE:
 
-            self.mover_x += -self.speed
+        elif self.mover_x < TAM_BLOQUE  and self.mover_x < self.ancho*2:
+
+            self.mover_x = -self.speed
+
         
         
         
@@ -291,19 +325,17 @@ class Enemigo(pygame.sprite.Sprite):
     def add_x(self,delta_x):
 
         self.rect.x += delta_x
-
+        self.rect_vision_r.x += delta_x
+        self.rect_vision_l.x += delta_x
         pass
     
     def add_y(self,delta_y):
 
         self.rect.y += delta_y
+        self.rect_vision_r.y = self.rect.y
+        self.rect_vision_l.y = self.rect.y
 
-        pass
 
-    def update_mask(self):
-
-        self.rect = self.imagen.get_rect(topleft = (self.rect.x,self.rect.y))
-        self.mask = pygame.mask.from_surface(self.imagen)
 
     def do_animacion(self,delta_ms):
         self.tiempo_trasncurrio_animacion += delta_ms
@@ -329,20 +361,22 @@ class Enemigo(pygame.sprite.Sprite):
         if self.cooldown_dispario > 0:
             self.cooldown_dispario -= 1
 
-    def update(self,delta_ms):
+    def update(self,delta_ms,player):
 
-        self.do_moviento(delta_ms)
+        self.do_moviento(delta_ms,player)
         self.do_animacion(delta_ms)
-        # self.update_mask()  
-        
+
+            
+        print(self.disparando)
+
     def draw(self,screen):
 
-        # self.salud_escudo.draw(self.salud,self.escudo,screen)
         
         if DEBUG:
 
             pygame.draw.rect(screen,ROJO,self.rect)
-            # pygame.draw.rect(screen,VERDE,self.side_collide_r)
+            pygame.draw.rect(screen,VERDE,self.rect_vision_r)
+            pygame.draw.rect(screen,VERDE,self.rect_vision_l)
 
         self.balas(screen)
         self.imagen = self.animacion[self.frame]

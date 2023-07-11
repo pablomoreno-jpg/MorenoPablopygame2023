@@ -19,26 +19,32 @@ class Bala(pygame.sprite.Sprite):
 
         match self.tipo:
 
-            case "escopeta":
-                
-                imagen = pygame.image.load(r"{0}\shotgun bullet.png".format(PAHT_PROYECTILES)).convert_alpha()
-
-                self.speed = 8
-
             case "default":
                 
-                imagen = Auxliar.load_sprisheet(r"{0}\bullet.png".format(PAHT_PROYECTILES),columnas=1,filas=3)[0]
-
-                imagen = pygame.transform.scale2x(imagen)
+                imagen = Auxliar.load_sprisheet(r"{0}\bullet.png".format(PAHT_PROYECTILES),columnas=2,filas=2)[0]
 
                 self.speed = 12
 
+            case "escopeta":
+                
+                imagen = Auxliar.load_sprisheet(r"{0}\bullet.png".format(PAHT_PROYECTILES),columnas=2,filas=2)[1]
+
+                imagen = pygame.transform.scale2x(imagen)
+
+                self.speed = 8
+
             case "plasma":
                 
-                imagen = Auxliar.load_sprisheet(r"{0}\bullet.png".format(PAHT_PROYECTILES),columnas=1,filas=3)[2]
+                imagen = Auxliar.load_sprisheet(r"{0}\bullet.png".format(PAHT_PROYECTILES),columnas=2,filas=2)[2]
 
                 self.speed = 17
 
+
+            case "energia":
+              
+                imagen = Auxliar.load_sprisheet(r"{0}\bullet.png".format(PAHT_PROYECTILES),columnas=2,filas=2)[3]
+
+                self.speed = 13
 
         return imagen
 
@@ -52,7 +58,7 @@ class Bala(pygame.sprite.Sprite):
 
         return imagen
     
-    def update(self,player,enemigo=None):
+    def update(self,player,enemigo = None):
         
         if self.direccion == DIRECCION_R:
 

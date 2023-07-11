@@ -41,7 +41,10 @@ class Nivel():
         
         self.lista_solidos = []
         self.lista_trampas = []
-        self.lista_lava = []
+        self.lista_pos_item_x = []
+        self.lista_pos_item_y= []
+        self.lista_pos_enemigos_x = []
+        self.lista_pos_enemigos_y = []
         self.columnas = columnas_nivel
         self.filas = filas_nivel
         self.nivel = nivel
@@ -57,23 +60,22 @@ class Nivel():
 
                 if columna >= 0 and columna < 288 and type(columna) == int:
                         
-                        if columna == 6:
+                        if columna == JUGADOR:
 
-                            #jugador
+                            jugador = Jugador(x,y, velocidad=6,framerate_animacion= 200, framerate_moviemiento= 18)
 
-                            pass
-
-                        elif columna == 7:
+                        elif columna == ITEM:
                             
-                            #item
+                            self.lista_pos_item_x.append(x)
+                            self.lista_pos_item_y.append(y)
 
-                            pass
                         
-                        elif columna == 12:
+                        elif columna == ENEMIGO:
 
-                            #enemigo
-                            pass
-                        
+                            self.lista_pos_enemigos_x.append(x)
+                            self.lista_pos_enemigos_y.append(y)
+
+
                         elif columna in LISTA_TRAMPAS:
 
                             bloque = Plataforma(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,tamaño=TAM_BLOQUE,path=BLOQUES,image_indec=columna,columnas=24,filas=12)
@@ -91,6 +93,7 @@ class Nivel():
 
                         pass
                     
+                return jugador
             
     def draw(self,screen):
         

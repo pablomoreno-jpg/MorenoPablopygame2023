@@ -28,12 +28,12 @@ items = Items(200,400,"plasma")
 
 items_group.add(items)
 
-nivel = Nivel(NIVELES[0]["prueba"],columnas_nivel=33,filas_nivel=22)
+nivel = Nivel(NIVELES[1]["nivel_01"],columnas_nivel=33,filas_nivel=22)
 
 nivel.prosesar_data()
 
 player = Jugador(x=40, y=10, velocidad=6,framerate_animacion= 200, framerate_moviemiento= 18)
-enemigo = Enemigo(x=100, y =60,velocidad=4,framerate_animacion= 200, framerate_moviemiento= 18,tipo_enemigo="soldado 2")
+enemigo = Enemigo(x=100, y =60,velocidad=4,framerate_animacion= 200, framerate_moviemiento= 18,tipo_enemigo="imp")
 
 
 flag_pausa = False
@@ -70,9 +70,9 @@ while corriendo:
         player.control_horizontal(nivel.lista_solidos,nivel.lista_trampas)
         player.update(delta_ms)
         player.draw(screen)
-        # enemigo.draw(screen)
-        # enemigo.ia_movimientos(nivel.lista_solidos)
-        # enemigo.update(delta_ms)
+        enemigo.draw(screen)
+        enemigo.ia(nivel.lista_solidos,player)
+        enemigo.update(delta_ms,player)
         items_group.update(player)
         items_group.draw(screen)
         
