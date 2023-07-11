@@ -12,18 +12,20 @@ def colicion_bala_personajas(player,enemigo):
         
         if bala.rect.colliderect(enemigo.rect.x,enemigo.rect.y,enemigo.ancho,enemigo.alto):
 
-            enemigo.daño(1)
+            enemigo.daño(10)
 
             if enemigo.salud <= 1:
 
                 player.puntaje += enemigo.puntos
 
+            bala.kill()
     for bala in enemigo.grupo_balas:
 
         if bala.rect.colliderect(player.rect.x,player.rect.y,player.ancho,player.alto):
 
-            player.daño(0.5)
+            player.daño(5)
 
+            bala.kill()
 
 
 SPRITS_ENEMIGOS_R = {"imp": {"walk": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[0:3],
@@ -98,7 +100,7 @@ class Enemigo(pygame.sprite.Sprite):
         self.mover_x = 0
         self.mover_y = 0
         self.cooldown_dispario = 0
-        self.cooldown_maximo = 15
+        self.cooldown_maximo = 20
         self.animacion = SPRITS_ENEMIGOS_R[tipo_enemigo]["idel"]
         self.image = self.animacion[self.frame]
         self.mask = self.mask = pygame.mask.from_surface(self.image)
@@ -117,7 +119,6 @@ class Enemigo(pygame.sprite.Sprite):
         self.contador_movimieno = 0
         self.rect_vision = pygame.Rect(0,0,300,100)
         self.rect_vision.center = (self.rect.centerx + 75, self.rect.centery)
-
 
     def caminar_ia(self,player,):
 
@@ -245,7 +246,7 @@ class Enemigo(pygame.sprite.Sprite):
 
             self.kill()
             retorno = self.puntos
-
+        
         return retorno
 
     def ia(self,objetos,player):
@@ -351,6 +352,7 @@ class Enemigo(pygame.sprite.Sprite):
         self.rect_vision.y = self.rect.y
 
     def do_animacion(self,delta_ms):
+
         self.tiempo_trasncurrio_animacion += delta_ms
 
         if self.mover_y > 0:
@@ -362,7 +364,6 @@ class Enemigo(pygame.sprite.Sprite):
             self.tiempo_trasncurrio_animacion = 0
 
             if self.frame < (len(self.animacion) -1):
-
 
                 self.frame += 1
 

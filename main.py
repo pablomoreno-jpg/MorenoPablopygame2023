@@ -74,7 +74,7 @@ while corriendo:
 
             flag_comenzar_juego = True
     else:
-
+        
         if flag_pausa:
 
             flag_pausa,corriendo = pausa.draw(screen)
@@ -122,7 +122,9 @@ while corriendo:
                 crear_enemigo = True
 
             flag_comenzar_juego = terminador_partida(player,segudos,minutos,screen)
-    
+            flag_nivel_cargado = flag_comenzar_juego
+            flag_eligiendo_nivel = flag_comenzar_juego
+
     pygame.display.flip()
     screen.blit(fondo,fondo.get_rect())                      
     for evento in pygame.event.get():

@@ -29,11 +29,13 @@ BLOQUES = r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\mis imagenes\location
 
 NIVELES = {"prueba":r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\niveles\prueba.csv",
            "nivel 1":r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\niveles\nivel_01.csv",
-           "nivel 2":r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\niveles\nivel_02.csv"}
+           "nivel 2":r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\niveles\nivel_02.csv",
+           "nivel 3": r"C:\Users\pablo\OneDrive\Escritorio\doom's gate\niveles\nivel_03.csv"}
 
 FONDOS_NIVLES = {"prueba":r"mis imagenes\locations\forest\all.png",
                 "nivel 1": r"mis imagenes\locations\mis escenarios\fondo 1.png",
-                 "nivel 2" : r"mis imagenes\locations\mis escenarios\fondo 2.png"}
+                 "nivel 2" : r"mis imagenes\locations\mis escenarios\fondo 3.png",
+                 "nivel 3" : r"mis imagenes\locations\mis escenarios\fondo 5.png"}
 
 
 ROJO = (255,0,0)

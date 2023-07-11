@@ -10,7 +10,7 @@ from items import*
 
 
 LISTA_ENEMIOS = ["imp","soldado 1","soldado 2","super demonio"]
-LISTA_ITEMS = ["escudo","escudo pequeño","escudo","plasma","botiquin pequeño","botiquin"]
+LISTA_ITEMS = ["escudo","escudo pequeño","escopeta","plasma","botiquin pequeño","botiquin"]
 
 def terminador_partida(player:Jugador,segundos:int,minutos:int,superficie) -> bool:
 
@@ -29,7 +29,7 @@ def terminador_partida(player:Jugador,segundos:int,minutos:int,superficie) -> bo
             jugando = False
             player.puntaje -= 100
 
-    elif player.vivo == True and minutos == 0 and segundos == 0:
+    if player.vivo == True and minutos == 0 and segundos == 0:
 
         texto = "YOU WIN!!!"
 
