@@ -10,7 +10,38 @@ from items import*
 
 
 LISTA_ENEMIOS = ["imp","soldado 1","soldado 2","super demonio"]
-LISTA_ITEMS = ["escudo","escudo pequeño","escudo","plasma"]
+LISTA_ITEMS = ["escudo","escudo pequeño","escudo","plasma","botiquin pequeño","botiquin"]
+
+def terminador_partida(player:Jugador,segundos:int,minutos:int,superficie) -> bool:
+
+    jugando = True
+
+    if player.vivo == False:
+
+        texto = "YOU DIED"
+
+        texto = Auxliar.generar_texto(PAHT_FONT,150,texto,ROJO)
+
+        imprimir_texto(superficie,texto,ANCHO_VENTANA/2,ALTO_VENTANA/2,350,150)
+
+        if player.frame == len(player.animacion) - 1:
+            
+            jugando = False
+            player.puntaje -= 100
+
+    elif player.vivo == True and minutos == 0 and segundos == 0:
+
+        texto = "YOU WIN!!!"
+
+        texto = Auxliar.generar_texto(PAHT_FONT,150,texto,VERDE)
+
+        imprimir_texto(superficie,texto,ANCHO_VENTANA/2,ALTO_VENTANA/2,350,150)
+        
+        if player.frame == len(player.animacion) - 1:
+            
+            jugando = False
+
+    return jugando
 
 def leer_csv(nombre:str,columnas,filas)-> list:
 
@@ -35,7 +66,6 @@ def leer_csv(nombre:str,columnas,filas)-> list:
                 archivo_leido[x][y] = int(num_bloque)
 
     return archivo_leido
-
 
 class Nivel():
     
@@ -104,7 +134,7 @@ class Nivel():
                     
         return jugador
 
-    def volver_a_cargar_items_o_enemigos(self):
+    def volver_a_cargar_items(self):
 
         data = leer_csv(self.nivel,self.columnas,self.filas)
 
@@ -115,20 +145,26 @@ class Nivel():
                 if bloque >= 0 and bloque < 288:
 
                     if bloque == ITEM:
-
+                        
                         item_random = random.choice(LISTA_ITEMS)
                         item = Items(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,item_tipo=item_random)
 
                         self.item_group.add(item)
 
-                    elif bloque == ENEMIGO:
-                        
-                        enemigo_random = random.choice(LISTA_ENEMIOS)
-                        enemigo = Enemigo(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,velocidad=4,framerate_animacion= 200, framerate_moviemiento= 18,tipo_enemigo= enemigo_random)
-                        
+    def volver_a_cargar_enemigo(self):
 
-                        self.enemy_group.add(enemigo)
+        data = leer_csv(self.nivel,self.columnas,self.filas)
 
+        for y, fila, in enumerate(data):
+        
+            for x, bloque in enumerate(fila):
+
+                if bloque == ENEMIGO:
+                    
+                    enemigo_random = random.choice(LISTA_ENEMIOS)
+                    enemigo = Enemigo(x= x*TAM_BLOQUE,y=y*TAM_BLOQUE,velocidad=4,framerate_animacion= 200, framerate_moviemiento= 18,tipo_enemigo= enemigo_random)
+                    
+                    self.enemy_group.add(enemigo)
 
 
     def draw(self,screen):

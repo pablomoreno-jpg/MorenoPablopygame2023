@@ -14,30 +14,22 @@ screen = pygame.display.set_mode((ANCHO_VENTANA,ALTO_VENTANA))
 
 pygame.init()
 clock = pygame.time.Clock()
+pygame.display.set_caption("doom's gate")
 
+# fuente = pygame.font.Font(PAHT_FONT,50)
+# texto = fuente.render("no  hay juego",0,VERDE)
 
-fuente = pygame.font.Font(PAHT_FONT,50)
-texto = fuente.render("no  hay juego",0,ROJO)
+#set_cronometro:
 
+evento_1000s = pygame.USEREVENT
+pygame.time.set_timer(evento_1000s,1000)
+segudos = 59
+minutos = 5
 
 pygame.display.set_caption("doom's gate")
 
-# fondo = pygame.image.load(r"{0}\locations\forest\all.png".format(PHAT_RECURSOS))
-# fondo = pygame.transform.scale(fondo,(ANCHO_VENTANA,ALTO_VENTANA))
-
-#fondos
+#fondos auxiliar
 fondo = Auxliar.elegir_background("prueba")
-
-enemy_grupe = pygame.sprite.Group()
-items_group = pygame.sprite.Group()
-
-items = Items(200,400,"plasma")
-
-items_group.add(items)
-
-# nivel = Nivel(NIVELES["nivel 2"],columnas_nivel=33,filas_nivel=22)
-
-# player = nivel.prosesar_data()
 
 flag_nivel_cargado = False
 flag_pausa = False
@@ -51,6 +43,11 @@ menu_principal = Main_menu(corriendo)
 elegir_niveles = Niveles()
 nivel = Nivel(NIVELES[elegir_niveles.nombre_nivel], columnas_nivel=33, filas_nivel=22)
 player = nivel.prosesar_data()
+segudos_transcurridos =  0
+crear_enemigo = True
+crear_item = True
+
+
 
 while corriendo:
 
@@ -60,14 +57,15 @@ while corriendo:
 
     if flag_comenzar_juego == False:
         
-        flag_eligiendo_nivel, corriendo = menu_principal.draw(screen)
+        segudos = 59
+        minutos = 5
 
+        flag_eligiendo_nivel, corriendo = menu_principal.draw(screen)
 
         if flag_eligiendo_nivel:
 
             flag_nivel_cargado = elegir_niveles.draw(screen)
 
-        
         if flag_nivel_cargado:
 
             fondo = Auxliar.elegir_background(elegir_niveles.nombre_nivel)
@@ -75,7 +73,6 @@ while corriendo:
             player = nivel.prosesar_data()
 
             flag_comenzar_juego = True
-            print(type(player))
     else:
 
         if flag_pausa:
@@ -83,21 +80,48 @@ while corriendo:
             flag_pausa,corriendo = pausa.draw(screen)
 
         else:
+            
+            tiempo = Auxliar.generar_texto(PAHT_FONT,50,"{0}:{1}".format(minutos,segudos),BLANCO)
 
             nivel.draw(screen)
-            player.control_horizontal(nivel.lista_solidos,nivel.lista_trampas)
             player.update(delta_ms)
             player.draw(screen)
-
+            player.control_horizontal(nivel.lista_solidos,nivel.lista_trampas)
 
             for item in nivel.item_group:
 
                 item.update(player)
                 item.draw(screen)
+
+            for enemigo in nivel.enemy_group:
+
+                enemigo.update(delta_ms,player,nivel.lista_solidos)
+                enemigo.draw(screen)
+
             
-        # screen.blit(texto,(ANCHO_VENTANA/2 - 200,100))
-        # pygame.display.flip()
-        # screen.blit(fondo,fondo.get_rect())
+                colicion_bala_personajas(player,enemigo)
+            
+            imprimir_texto(screen,tiempo,ANCHO_VENTANA/2,50,tamaño_mensaje_x= 50)
+            
+            if segudos_transcurridos == 10:
+    
+                if crear_item:
+                    nivel.volver_a_cargar_items()
+                    crear_item = False
+
+            if segudos_transcurridos == 15:
+                
+                segudos_transcurridos = 0
+                if crear_enemigo:
+                    nivel.volver_a_cargar_enemigo()
+                    crear_enemigo = False
+
+            if segudos_transcurridos == 0:
+
+                crear_item = True
+                crear_enemigo = True
+
+            flag_comenzar_juego = terminador_partida(player,segudos,minutos,screen)
     
     pygame.display.flip()
     screen.blit(fondo,fondo.get_rect())                      
@@ -114,6 +138,18 @@ while corriendo:
             
         if flag_nivel_cargado == True:
             player.control_vertical(nivel.lista_solidos,evento,nivel.lista_trampas)
-    
+
+        if evento.type == evento_1000s and flag_pausa == False:
+            if segudos > 0:
+                segudos -= 1
+                
+            else:
+                minutos -= 1
+                segudos = 60
+
+            if flag_comenzar_juego and flag_pausa == False:
+                segudos_transcurridos += 1
+
+        
     # pygame.display.flip()
     # screen.blit(fondo,fondo.get_rect())

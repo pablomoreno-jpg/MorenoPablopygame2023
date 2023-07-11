@@ -6,29 +6,57 @@ from plataforma import*
 from balas import*
 
 
+def colicion_bala_personajas(player,enemigo):
+
+    for bala in player.grupo_balas:
+        
+        if bala.rect.colliderect(enemigo.rect.x,enemigo.rect.y,enemigo.ancho,enemigo.alto):
+
+            enemigo.daño(1)
+
+            if enemigo.salud <= 1:
+
+                player.puntaje += enemigo.puntos
+
+    for bala in enemigo.grupo_balas:
+
+        if bala.rect.colliderect(player.rect.x,player.rect.y,player.ancho,player.alto):
+
+            player.daño(0.5)
+
+
+
 SPRITS_ENEMIGOS_R = {"imp": {"walk": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[0:3],
                              "idel": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[1:2],
                              "shoot": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[4:6],
                              "damege": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[6:8],
-                             "arma": "plasma"},
+                             "arma": "plasma",
+                             "vida": 50,
+                             "punto":100},
 
                      "soldado 1": {"walk": Auxliar.load_sprisheet(r"{}\soldado 1.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[0:4],
                                    "idel": Auxliar.load_sprisheet(r"{}\soldado 1.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[1:2],
                                    "shoot": Auxliar.load_sprisheet(r"{}\soldado 1.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[5:6],
                                    "damege": Auxliar.load_sprisheet(r"{}\soldado 1.png".format(PAHT_ENEMIGOS), columnas=3, filas=3, direcciones=True)[7:8],
-                                   "arma": "escopeta"},
+                                   "arma": "escopeta",
+                                   "vida": 20,
+                                   "punto":50},
 
                      "soldado 2": {"walk": Auxliar.load_sprisheet(r"{}\soldado 2.png".format(PAHT_ENEMIGOS), columnas=4, filas=4, direcciones=True)[0:5],
                                    "idel": Auxliar.load_sprisheet(r"{}\soldado 2.png".format(PAHT_ENEMIGOS), columnas=4, filas=4, direcciones=True)[11:13],
                                    "shoot": Auxliar.load_sprisheet(r"{}\soldado 2.png".format(PAHT_ENEMIGOS), columnas=4, filas=4, direcciones=True)[6:7],
                                    "damege": Auxliar.load_sprisheet(r"{}\soldado 2.png".format(PAHT_ENEMIGOS), columnas=4, filas=4, direcciones=True)[8:10],
-                                   "arma": "default"},
+                                   "arma": "default",
+                                    "vida":20,
+                                    "punto": 50},
 
                      "super demonio": {"walk": Auxliar.load_sprisheet(r"{}\super demonio.png".format(PAHT_ENEMIGOS), columnas=4, filas=3, direcciones=True)[0:3],
                                        "idel": Auxliar.load_sprisheet(r"{}\super demonio.png".format(PAHT_ENEMIGOS), columnas=4, filas=3, direcciones=True)[9:11],
                                        "shoot": Auxliar.load_sprisheet(r"{}\super demonio.png".format(PAHT_ENEMIGOS), columnas=4, filas=3, direcciones=True)[4:5],
                                        "damege": Auxliar.load_sprisheet(r"{}\super demonio.png".format(PAHT_ENEMIGOS), columnas=4, filas=3, direcciones=True)[6:8],
-                                       "arma": "energia"},
+                                       "arma": "energia",
+                                       "vida":100,
+                                        "punto": 200}
                      }
 
 SPRITS_ENEMIGOS_L = {"imp": {"walk": Auxliar.load_sprisheet(r"{}\imp.png".format(PAHT_ENEMIGOS), columnas=3, filas=3,)[0:3],
@@ -60,7 +88,8 @@ class Enemigo(pygame.sprite.Sprite):
         self.direccion = DIRECCION_R
         self.tipo_enemigo = tipo_enemigo
         self.arma = SPRITS_ENEMIGOS_R[tipo_enemigo]["arma"]
-        self.salud = 50
+        self.salud = SPRITS_ENEMIGOS_R[tipo_enemigo]["vida"]
+        self.puntos = SPRITS_ENEMIGOS_R[tipo_enemigo]["punto"]
         self.salud_maxima = self.salud
         self.vivo = True
         self.contador_caida = 0
@@ -200,11 +229,24 @@ class Enemigo(pygame.sprite.Sprite):
 
     def daño(self,cantidad_daño):
 
-        self.salud = - cantidad_daño
+        retorno = 0
+        if self.direccion == DIRECCION_R:
+
+            self.animacion = SPRITS_ENEMIGOS_R[self.tipo_enemigo]["damege"]
+
+        else:
+
+            self.animacion = SPRITS_ENEMIGOS_L[self.tipo_enemigo]["damege"]            
+        
+        self.frame = 0
+        self.salud -= cantidad_daño
 
         if self.salud == 0:
 
             self.kill()
+            retorno = self.puntos
+
+        return retorno
 
     def ia(self,objetos,player):
 

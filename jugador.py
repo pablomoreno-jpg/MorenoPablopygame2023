@@ -37,6 +37,7 @@ class Jugador(pygame.sprite.Sprite):
         self.direccion = DIRECCION_R
         self.arma = "default"
         self.salud = 100
+        self.puntaje = 0
         self.salud_maxima = self.salud
         self.escudo_maximo = 50
         self.vivo = True
@@ -387,10 +388,11 @@ class Jugador(pygame.sprite.Sprite):
 
         self.do_moviento(delta_ms)
         self.do_animacion(delta_ms)
-
         
     def draw(self,screen):
-       
+        
+        puntaje = "x{0}".format(self.puntaje)
+        puntaje = Auxliar.generar_texto(PAHT_FONT,40,puntaje,BLANCO)
         if DEBUG:
 
             pygame.draw.rect(screen,ROJO,self.rect)
@@ -400,4 +402,5 @@ class Jugador(pygame.sprite.Sprite):
         self.imagen = self.animacion[self.frame]
         screen.blit(self.imagen,self.rect)
         self.salud_escudo.draw(self.salud,self.escudo,screen)
+        imprimir_texto(screen,puntaje,self.salud_escudo.x,self.salud_escudo.y + 50)
 

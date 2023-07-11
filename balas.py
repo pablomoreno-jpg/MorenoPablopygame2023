@@ -58,7 +58,7 @@ class Bala(pygame.sprite.Sprite):
 
         return imagen
     
-    def update(self,player,enemigo = None):
+    def update(self,player):
         
         if self.direccion == DIRECCION_R:
 
@@ -70,15 +70,6 @@ class Bala(pygame.sprite.Sprite):
 
         if self.rect.right < 0 or self.rect.left > ANCHO_VENTANA:
             self.kill()
-
-
-        # if pygame.sprite.spritecollide(player, player.grupo_balas,False):
-           
-        #     if player.salud_maxima > 0:
-
-        #         player.salud_maxima -= 5 
-
-        #         self.kill()
 
 
         

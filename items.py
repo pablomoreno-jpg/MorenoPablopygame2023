@@ -30,19 +30,19 @@ class Items(pygame.sprite.Sprite):
 
             if self.tipo_item == "posion":
 
-                if player.salud < player.self_maxima:
+                if player.salud < player.salud_maxima:
 
                     player.salud += 5
 
             elif self.tipo_item == "botiquin pequeño":
 
-                if player.salud < player.self_maxima:
+                if player.salud < player.salud_maxima:
 
                     player.salud += 15
 
             elif self.tipo_item == "botiquin":
 
-                if player.salud < player.self_maxima:
+                if player.salud < player.salud_maxima:
 
                     player.salud += 25
 
@@ -51,6 +51,7 @@ class Items(pygame.sprite.Sprite):
                 if player.escudo < player.escudo_maximo:
 
                     player.escudo += 5
+                
 
             elif self.tipo_item == "escudo":
 
@@ -68,6 +69,19 @@ class Items(pygame.sprite.Sprite):
                 player.arma = "plasma"
                 player.cooldown_maximo = 3
         
+            #en caso de sobrepasar las barrras maximas
+            if player.salud > player.salud_maxima:
+
+                diferencia = player.salud -player.salud_maxima
+
+                player.salud -= diferencia
+
+            if player.escudo > player.escudo_maximo:
+
+                diferencia = player.escudo - player.escudo_maximo
+
+                player.escudo -= diferencia
+
             self.kill()
 
     def draw(self,screen):

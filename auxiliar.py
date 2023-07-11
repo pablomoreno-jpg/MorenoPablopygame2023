@@ -1,6 +1,18 @@
 import pygame
 from constantes import*
 
+
+
+def imprimir_texto(superfice,mensaje,x,y,tamaño_mensaje_x = 0,tamaño_mensaje_y = 0):
+
+    escalar_x = tamaño_mensaje_x / 2
+    escalar_y = tamaño_mensaje_y / 2
+
+    superfice.blit(mensaje, (x - escalar_x, y - escalar_y))
+
+
+
+
 class Auxliar:
 
 
@@ -33,9 +45,16 @@ class Auxliar:
     
 
     @staticmethod
-    def elegir_background(nombre_nivel):
+    def elegir_background(nombre_nivel:str):
 
         fondo = pygame.image.load(FONDOS_NIVLES[nombre_nivel])
         fondo = pygame.transform.scale(fondo,(ANCHO_VENTANA,ALTO_VENTANA))
 
         return fondo
+    
+    @staticmethod
+    def generar_texto(fuente:str,tamaño:float,contenido:str,color:tuple):
+
+        fuente = pygame.font.SysFont(fuente,tamaño)
+        return fuente.render(contenido,True,color)
+    
