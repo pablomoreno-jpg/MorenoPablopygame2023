@@ -6,7 +6,12 @@ IMGAENES_BOTONES = {"comenzar":pygame.image.load(r"mis imagenes\extras\main menu
                     "continuar":pygame.image.load(r"mis imagenes\extras\pausa\opcion 1.png"),
                     "opciones":pygame.image.load(r"mis imagenes\extras\opcion 2.png"),
                     "salir menu":pygame.image.load(r"mis imagenes\extras\pausa\opcion 4.png"),
-                    "salir":pygame.image.load(r"mis imagenes\extras\opcion 3.png")}
+                    "salir":pygame.image.load(r"mis imagenes\extras\opcion 3.png"),
+                    "01":pygame.image.load(r"mis imagenes\extras\elegir niveles\01.png"),
+                    "02":pygame.image.load(r"mis imagenes\extras\elegir niveles\02.png"),
+                    "03":pygame.image.load(r"mis imagenes\extras\elegir niveles\03.png"),
+                    "04":pygame.image.load(r"mis imagenes\extras\elegir niveles\04.png"),
+                    "05":pygame.image.load(r"mis imagenes\extras\elegir niveles\05.png")}
 
 
 class Boton():
