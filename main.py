@@ -19,7 +19,7 @@ pygame.display.set_caption("doom's gate")
 # fuente = pygame.font.Font(PAHT_FONT,50)
 # texto = fuente.render("no  hay juego",0,VERDE)
 
-#set_cronometro:
+#set_cronometro:d
 
 evento_1000s = pygame.USEREVENT
 pygame.time.set_timer(evento_1000s,1000)
@@ -43,7 +43,7 @@ menu_principal = Main_menu(corriendo)
 elegir_niveles = Niveles()
 nivel = Nivel(NIVELES[elegir_niveles.nombre_nivel], columnas_nivel=33, filas_nivel=22)
 player = nivel.prosesar_data()
-segudos_transcurridos =  0
+sengudos_transcurridos =  0
 crear_enemigo = True
 crear_item = True
 
@@ -103,20 +103,20 @@ while corriendo:
             
             imprimir_texto(screen,tiempo,ANCHO_VENTANA/2,50,tamaño_mensaje_x= 50)
             
-            if segudos_transcurridos == 10:
+            if sengudos_transcurridos == 10:
     
                 if crear_item:
                     nivel.volver_a_cargar_items()
                     crear_item = False
 
-            if segudos_transcurridos == 15:
+            if sengudos_transcurridos == 15:
                 
-                segudos_transcurridos = 0
+                sengudos_transcurridos = 0
                 if crear_enemigo:
                     nivel.volver_a_cargar_enemigo()
                     crear_enemigo = False
 
-            if segudos_transcurridos == 0:
+            if sengudos_transcurridos == 0:
 
                 crear_item = True
                 crear_enemigo = True
@@ -150,7 +150,7 @@ while corriendo:
                 segudos = 60
 
             if flag_comenzar_juego and flag_pausa == False:
-                segudos_transcurridos += 1
+                sengudos_transcurridos += 1
 
         
     # pygame.display.flip()
